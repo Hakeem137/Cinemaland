@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link rel="stylesheet" href="Moviescity_styles_only.css">
+  <title>
+   CinemaLand
+  </title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+ </head>
+ <body>
+  <!-- قسم الهيدر مع عرض الفيلم الحالي والكاروسيل -->
+  <header class="hero">
+   <nav class="navbar">
+    <div class="logo">
+     سينما لاند
+    </div>
+    <ul class="nav-links">
+     <li>
+      <a href="#">
+       صفحة الرئيسية
+      </a>
+     </li>
+     <li>
+      <a href="#">
+       فيلم
+      </a>
+     </li>
+     <li>
+      <a href="#">
+       مسلسل
+      </a>
+     </li>
+     <li>
+      <a href="#">
+       فريق العمل
+      </a>
+     </li>
+     <li>
+      <a href="#">
+       عنّا
+      </a>
+     </li>
+    </ul>
+    <div class="auth-buttons">
+     <button class="login">
+      تسجيل الدخول
+     </button>
+     <button class="register">
+      تسجيل
+     </button>
+    </div>
+    <div class="search-box">
+     <input placeholder="ابحث..." type="text"/>
+     <button>
+      <span class="material-icons">
+       search
+      </span>
+     </button>
+    </div>
+   </nav>
+   <div class="movie-info">
+    <h1>
+     Oppenheimer 2023
+    </h1>
+    <p class="description">
+     فيلم أوبنهايمر يروي قصة العالم الفيزيائي الذي قاد مشروع مانهاتن لتطوير القنبلة الذرية...
+    </p>
+    <div class="movie-details">
+     <span>
+      التصنيف: دراما، سيرة ذاتية، تاريخ
+     </span>
+     <span>
+      <span class="material-icons" style="vertical-align: middle;">
+       hourglass_empty
+      </span>
+      3 ساعات
+     </span>
+     <span>
+      <span class="material-icons" style="vertical-align: middle;">
+       star
+      </span>
+      8.3/10
+     </span>
+     <span>
+      المخرج: كريستوفر نولان
+     </span>
+     <span>
+      تاريخ الإصدار: 2023
+     </span>
+    </div>
+    <button class="watch-btn">
+     مشاهدة وتحميل بجودة عالية
+    </button>
+   </div>
+   <div class="carousel">
+    <button class="prev">
+     <span class="material-icons">
+      arrow_forward
+     </span>
+    </button>
+    <div class="dots">
+     <span class="dot active">
+     </span>
+     <span class="dot">
+     </span>
+     <span class="dot">
+     </span>
+     <span class="dot">
+     </span>
+    </div>
+    <button class="next">
+     <span class="material-icons">
+      arrow_back
+     </span>
+    </button>
+   </div>
+  </header>
+  <!-- قسم البحث المتقدم -->
+  <section class="advanced-search">
+   <h2>
+    بحث متقدم عن الأفلام والمسلسلات
+   </h2>
+   <form action="#" class="filters-form" method="get">
+    <div class="filter-group">
+     <label for="type">
+      النوع
+     </label>
+     <select id="type" name="type">
+      <option value="">
+       اختر النوع
+      </option>
+      <option value="movie">
+       فيلم
+      </option>
+      <option value="series">
+       مسلسل
+      </option>
+     </select>
+    </div>
+    <div class="filter-group">
+     <label for="country">
+      البلد
+     </label>
+     <select id="country" name="country">
+      <option value="">
+       اختر البلد
+      </option>
+      <option value="us">
+       الولايات المتحدة
+      </option>
+      <option value="uk">
+       المملكة المتحدة
+      </option>
+      <option value="eg">
+       مصر
+      </option>
+      <option value="fr">
+       فرنسا
+      </option>
+     </select>
+    </div>
+    <div class="filter-group">
+     <label for="yearFrom">
+      سنة الإصدار من
+     </label>
+     <input id="yearFrom" name="yearFrom" placeholder="مثال: 2000" type="number"/>
+    </div>
+    <div class="filter-group">
+     <label for="yearTo">
+      سنة الإصدار إلى
+     </label>
+     <input id="yearTo" name="yearTo" placeholder="مثال: 2023" type="number"/>
+    </div>
+    <div class="filter-group">
+     <label for="imdbMin">
+      تقييم IMDb من
+     </label>
+     <input id="imdbMin" name="imdbMin" placeholder="مثال: 5.0" step="0.1" type="number"/>
+    </div>
+    <div class="filter-group">
+     <label for="imdbMax">
+      تقييم IMDb إلى
+     </label>
+     <input id="imdbMax" name="imdbMax" placeholder="مثال: 9.0" step="0.1" type="number"/>
+    </div>
+    <div class="filter-group">
+     <label for="quality">
+      الجودة
+     </label>
+     <select id="quality" name="quality">
+      <option value="">
+       اختر الجودة
+      </option>
+      <option value="1080p">
+       1080p
+      </option>
+      <option value="720p">
+       720p
+      </option>
+      <option value="480p">
+       480p
+      </option>
+     </select>
+    </div>
+    <div class="filter-group">
+     <label for="ageRating">
+      الفئة العمرية
+     </label>
+     <select id="ageRating" name="ageRating">
+      <option value="">
+       اختر الفئة العمرية
+      </option>
+      <option value="g">
+       G
+      </option>
+      <option value="pg">
+       PG
+      </option>
+      <option value="pg13">
+       PG-13
+      </option>
+      <option value="r">
+       R
+      </option>
+     </select>
+    </div>
+    <div class="filter-group">
+     <label for="actor">
+      الممثل
+     </label>
+     <input id="actor" name="actor" placeholder="اسم الممثل" type="text"/>
+    </div>
+    <div class="filter-group">
+     <label for="director">
+      المخرج
+     </label>
+     <input id="director" name="director" placeholder="اسم المخرج" type="text"/>
+    </div>
+    <div class="filter-group-inline">
+     <label for="dubbed">
+      دبلجة
+     </label>
+     <input id="dubbed" name="dubbed" type="checkbox"/>
+    </div>
+    <div class="filter-group-inline">
+     <label for="subtitles">
+      ترجمة
+     </label>
+     <input id="subtitles" name="subtitles" type="checkbox"/>
+    </div>
+    <div class="filter-group">
+     <label for="sortBy">
+      الترتيب
+     </label>
+     <select id="sortBy" name="sortBy">
+      <option value="">
+       اختر الترتيب
+      </option>
+      <option value="latest">
+       الأحدث
+      </option>
+      <option value="oldest">
+       الأقدم
+      </option>
+      <option value="ratingDesc">
+       الأعلى تقييمًا
+      </option>
+      <option value="ratingAsc">
+       الأقل تقييمًا
+      </option>
+     </select>
+    </div>
+    <button class="search-button" type="submit">
+     تطبيق الفلاتر والبحث
+    </button>
+   </form>
+  </section>
+  <!-- قسم الشرائح الثلاث مع البوسترات -->
+  <section class="movies-slides">
+   <!-- شريحة 1: أحدث الأفلام -->
+   <h2>
+    أحدث الأفلام
+   </h2>
+   <div class="movie-slider-container">
+    <div class="slider-navigation">
+     <button class="slider-nav-right">
+      <span class="material-icons">
+       arrow_forward
+      </span>
+     </button>
+     <button class="slider-nav-left">
+      <span class="material-icons">
+       arrow_back
+      </span>
+     </button>
+    </div>
+    <div class="slide">
+     <div class="poster-group group1">
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 1" src="https://i.ibb.co/mVWbMjgZ/5933909795654452732-1.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 2" src="https://i.ibb.co/pvzDY1wF/5933909795654452731-1.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 3" src="https://i.ibb.co/Rpbw3GfP/5bcb94e90b456bfc7ea538e66fe52b7d.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 4" src="https://i.ibb.co/TBN7JLhp/lion.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 5" src="https://i.ibb.co/8npfgX1L/Avengers.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 6" src="https://i.ibb.co/jvxj1tyX/55.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 7" src="https://i.ibb.co/LDZBZybd/Last.jpg"/>
+       </a>
+      </div>
+     </div>
+     <div class="poster-group group2" style="display: none;">
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 8" src="https://i.ibb.co/Y70NH8rR/Jurrasic.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        <img alt="Poster 9" src="https://i.ibb.co/hF4MMBKy/5933577086012868939-1.jpg"/>
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        Poster 10
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        Poster 11
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        Poster 12
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        Poster 13
+       </a>
+      </div>
+      <div class="poster">
+       <a href="movie-details.html">
+        Poster 14
+       </a>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- شريحة 2: أفضل المسلسلات -->
+   <h2>
+    أفضل المسلسلات
+   </h2>
+   <div class="movie-slider-container">
+    <div class="slider-navigation">
+     <button class="slider-nav-right">
+      <span class="material-icons">
+       arrow_forward
+      </span>
+     </button>
+     <button class="slider-nav-left">
+      <span class="material-icons">
+       arrow_back
+      </span>
+     </button>
+    </div>
+    <div class="slide">
+     <div class="poster-group group1">
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 1
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 2
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 3
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 4
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 5
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 6
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 7
+       </a>
+      </div>
+     </div>
+     <div class="poster-group group2" style="display: none;">
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 8
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 9
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 10
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 11
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 12
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 13
+       </a>
+      </div>
+      <div class="poster">
+       <a href="series-details.html">
+        Poster 14
+       </a>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- شريحة 3: الأفلام الأعلى تقييماً -->
+   <h2>
+    الأفلام الأعلى تقييماً
+   </h2>
+   <div class="movie-slider-container">
+    <div class="slider-navigation">
+     <button class="slider-nav-right">
+      <span class="material-icons">
+       arrow_forward
+      </span>
+     </button>
+     <button class="slider-nav-left">
+      <span class="material-icons">
+       arrow_back
+      </span>
+     </button>
+    </div>
+    <div class="slide">
+     <div class="poster-group group1">
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 1
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 2
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 3
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 4
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 5
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 6
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 7
+       </a>
+      </div>
+     </div>
+     <div class="poster-group group2" style="display: none;">
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 8
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 9
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 10
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 11
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 12
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 13
+       </a>
+      </div>
+      <div class="poster">
+       <a href="high-rating.html">
+        Poster 14
+       </a>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- كود الجافاسكريبت لتشغيل الكاروسيل وتبديل مجموعات البوسترات -->
+  <!-- نوافذ تسجيل الدخول وتسجيل المستخدم -->
+  <div id="auth-modal" style="display:none; position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;justify-content:center;align-items:center;">
+   <div style="background:#111;padding:20px;border-radius:10px;width:90%;max-width:400px;">
+    <h2 id="auth-title" style="color:red;text-align:center;margin-bottom:15px;">
+     تسجيل الدخول
+    </h2>
+    <input id="auth-username" placeholder="الاسم الكامل" style="width:100%;padding:10px;margin-bottom:10px;border:none;border-radius:5px;background:#222;color:white;display:none;" type="text"/>
+    <input id="auth-email" placeholder="البريد الإلكتروني" style="width:100%;padding:10px;margin-bottom:10px;border:none;border-radius:5px;background:#222;color:white;" type="email"/>
+    <input id="auth-password" placeholder="كلمة المرور" style="width:100%;padding:10px;margin-bottom:10px;border:none;border-radius:5px;background:#222;color:white;" type="password"/>
+    <button id="auth-submit" style="width:100%;padding:10px;background:red;border:none;border-radius:5px;color:white;font-weight:bold;margin-bottom:10px;">
+     دخول
+    </button>
+    <p style="text-align:center;color:white;">
+     <span id="toggle-auth" style="cursor:pointer;color:red;text-decoration:underline;">
+      ليس لديك حساب؟ سجل الآن
+     </span>
+    </p>
+   </div>
+  </div>
+  <script src="Moviescity_scripts_only.js" defer></script>
+ </body>
+</html>
