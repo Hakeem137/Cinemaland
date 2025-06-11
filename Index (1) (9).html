@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaLand</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* التنسيقات الأساسية للموقع */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+    }
+    .hero {
+      position: relative;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-image 0.5s ease-in-out;
+      padding: 0 20px;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      padding: 15px 0;
+      position: absolute;
+      top: 0;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: red;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links li a {
+      text-decoration: none;
+      color: white;
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .auth-buttons button, .watch-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: 16px;
+      position: relative;
+      transition: 0.3s;
+    }
+    .auth-buttons button::before, .watch-btn::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 25px;
+      border: 2px solid red;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .auth-buttons button:hover::before, .watch-btn:hover::before {
+      opacity: 1;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .search-box input {
+      background: none;
+      border: none;
+      color: white;
+      padding: 5px;
+    }
+    .search-box button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 24px;
+    }
+    .movie-info {
+      text-align: right;
+      position: absolute;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 40%;
+    }
+    .movie-info h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+    .movie-info .description {
+      font-size: 18px;
+      line-height: 1.5;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    .movie-details {
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .movie-details span {
+      padding: 0 10px;
+      border-right: 2px solid red;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .movie-details span:last-child {
+      border-right: none;
+    }
+    .movie-details span:hover {
+      transform: scale(1.1);
+      color: red;
+    }
+    .watch-btn {
+      margin-top: 15px;
+    }
+    .carousel {
+      position: absolute;
+      bottom: 10%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: gray;
+      border-radius: 50%;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .dot.active {
+      background: red;
+      transform: scale(1.2);
+    }
+    .dot:hover {
+      transform: scale(1.3);
+      cursor: pointer;
+    }
+    .carousel button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 36px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .carousel button:hover {
+      color: red;
+    }
+    .carousel button:active {
+      transform: scale(0.9);
+    }
+    /* ===== قسم البحث المتقدم ===== */
+    .advanced-search {
+      width: 90%;
+      margin: 30px auto 50px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      color: #fff;
+    }
+    .advanced-search h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: red;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    .filters-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      align-items: end;
+    }
+    .filter-group,
+    .filter-group-inline {
+      display: flex;
+      flex-direction: column;
+    }
+    .filter-group-inline {
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+    }
+    .filter-group label,
+    .filter-group-inline label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .filter-group select,
+    .filter-group input {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background: #222;
+      color: #fff;
+      transition: border-color 0.3s;
+    }
+    .filter-group select:focus,
+    .filter-group input:focus {
+      outline: none;
+      border-color: red;
+    }
+    .filter-group-inline input[type="checkbox"] {
+      transform: scale(1.2);
+      accent-color: red;
+      cursor: pointer;
+    }
+    .search-button {
+      grid-column: 1 / -1;
+      background: red;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .search-button:hover {
+      background-color: #ff3333;
+      transform: scale(1.02);
+    }
+    /* ===== قسم الشرائح ===== */
+    .movies-slides {
+      width: 90%;
+      margin: 0 auto 50px;
+    }
+    .movies-slides h2 {
+      margin-bottom: 10px;
+      color: red;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    /* تنسيق البوسترات */
+    .poster {
+      width: 150px;
+      overflow: hidden;
+      height: 250px;
+      background: #222;
+      border: 1px solid red;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 14px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .poster:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.5);
+    }
+    .movie-slider-container {
+      position: relative;
+      margin-bottom: 50px;
+    }
+    .slider-navigation {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 10;
+    }
+    .slider-navigation button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 36px;
+      padding: 10px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .slider-navigation button:hover {
+      color: red;
+      transform: scale(1.1);
+    }
+    .slider-navigation button:active {
+      transform: scale(0.9);
+    }
+    .poster-group {
+      display: flex;
+      gap: 15px;
+      transition: opacity 0.3s ease;
+    }
+    .poster img{
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+      transform: scale(1.2);
+    }
+    
+    /* ==== تحسين التوافق مع شاشات الهواتف والأجهزة الصغيرة ==== */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        position: static;
+      }
+      .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .auth-buttons {
+        margin-top: 10px;
+      }
+      .search-box {
+        margin-top: 10px;
+      }
+      .movie-info {
+        position: static;
+        transform: none;
+        text-align: center;
+        max-width: 100%;
+        padding: 20px 0;
+      }
+      .movie-info h1 {
+        font-size: 32px;
+      }
+      .movie-info .description {
+        font-size: 16px;
+      }
+      .carousel {
+        position: static;
+        margin-top: 20px;
+      }
+      .advanced-search,
+      .movies-slides {
+        width: 95%;
+      }
+      .filters-form {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+      .poster {
+        width: 120px;
+        height: 200px;
+      }
+    }
+    
+    /* ==== تحسين إضافي للأجهزة الصغيرة جدًا (مثلاً شاشات أقل من 480px) ==== */
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 20px;
+      }
+      .nav-links li a {
+        font-size: 14px;
+      }
+      .auth-buttons button, .watch-btn {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+      .movie-info h1 {
+        font-size: 28px;
+      }
+      .movie-info .description {
+        font-size: 14px;
+      }
+      .slider-navigation button {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- قسم الهيدر مع عرض الفيلم الحالي والكاروسيل -->
+  <header class="hero">
+    <nav class="navbar">
+      <div class="logo">سينما لاند</div>
+      <ul class="nav-links">
+        <li><a href="#">الصفحة الرئيسية</a></li>
+        <li><a href="#">فيلم</a></li>
+        <li><a href="#">مسلسل</a></li>
+        <li><a href="#">فريق العمل</a></li>
+        <li><a href="#">عنّا</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <button class="login">تسجيل الدخول</button>
+        <button class="register">تسجيل</button>
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="ابحث...">
+        <button>
+          <span class="material-icons">search</span>
+        </button>
+      </div>
+    </nav>
+    <div class="movie-info">
+      <h1>Oppenheimer 2023</h1>
+      <p class="description">فيلم أوبنهايمر يروي قصة العالم الفيزيائي الذي قاد مشروع مانهاتن لتطوير القنبلة الذرية...</p>
+      <div class="movie-details">
+        <span>التصنيف: دراما، سيرة ذاتية، تاريخ</span>
+        <span><span class="material-icons" style="vertical-align: middle;">hourglass_empty</span> 3 ساعات</span>
+        <span><span class="material-icons" style="vertical-align: middle;">star</span> 8.3/10</span>
+        <span>المخرج: كريستوفر نولان</span>
+        <span>تاريخ الإصدار: 2023</span>
+      </div>
+      <button class="watch-btn">مشاهدة وتحميل بجودة عالية</button>
+    </div>
+    <div class="carousel">
+      <button class="prev">
+        <span class="material-icons">arrow_forward</span>
+      </button>
+      <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <button class="next">
+        <span class="material-icons">arrow_back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- قسم البحث المتقدم -->
+  <section class="advanced-search">
+    <h2>بحث متقدم عن الأفلام والمسلسلات</h2>
+    <form class="filters-form" action="#" method="get">
+      <div class="filter-group">
+        <label for="type">النوع</label>
+        <select id="type" name="type">
+          <option value="">اختر النوع</option>
+          <option value="movie">فيلم</option>
+          <option value="series">مسلسل</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="country">البلد</label>
+        <select id="country" name="country">
+          <option value="">اختر البلد</option>
+          <option value="us">الولايات المتحدة</option>
+          <option value="uk">المملكة المتحدة</option>
+          <option value="eg">مصر</option>
+          <option value="fr">فرنسا</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="yearFrom">سنة الإصدار من</label>
+        <input type="number" id="yearFrom" name="yearFrom" placeholder="مثال: 2000">
+      </div>
+      <div class="filter-group">
+        <label for="yearTo">سنة الإصدار إلى</label>
+        <input type="number" id="yearTo" name="yearTo" placeholder="مثال: 2023">
+      </div>
+      <div class="filter-group">
+        <label for="imdbMin">تقييم IMDb من</label>
+        <input type="number" step="0.1" id="imdbMin" name="imdbMin" placeholder="مثال: 5.0">
+      </div>
+      <div class="filter-group">
+        <label for="imdbMax">تقييم IMDb إلى</label>
+        <input type="number" step="0.1" id="imdbMax" name="imdbMax" placeholder="مثال: 9.0">
+      </div>
+      <div class="filter-group">
+        <label for="quality">الجودة</label>
+        <select id="quality" name="quality">
+          <option value="">اختر الجودة</option>
+          <option value="4K">4K</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="ageRating">الفئة العمرية</label>
+        <select id="ageRating" name="ageRating">
+          <option value="">اختر الفئة العمرية</option>
+          <option value="g">G</option>
+          <option value="pg">PG</option>
+          <option value="pg13">PG-13</option>
+          <option value="r">R</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="actor">الممثل</label>
+        <input type="text" id="actor" name="actor" placeholder="اسم الممثل">
+      </div>
+      <div class="filter-group">
+        <label for="director">المخرج</label>
+        <input type="text" id="director" name="director" placeholder="اسم المخرج">
+      </div>
+      <div class="filter-group-inline">
+        <label for="dubbed">مدبلج</label>
+        <input type="checkbox" id="dubbed" name="dubbed">
+      </div>
+      <div class="filter-group-inline">
+        <label for="subtitles">مترجم</label>
+        <input type="checkbox" id="subtitles" name="subtitles">
+      </div>
+      <div class="filter-group">
+        <label for="sortBy">الترتيب</label>
+        <select id="sortBy" name="sortBy">
+          <option value="">اختر الترتيب</option>
+          <option value="latest">الأحدث</option>
+          <option value="oldest">الأقدم</option>
+          <option value="ratingDesc">الأعلى تقييمًا</option>
+          <option value="ratingAsc">الأقل تقييمًا</option>
+        </select>
+      </div>
+      <button type="submit" class="search-button">تطبيق الفلاتر والبحث</button>
+    </form>
+  </section>
+
+  <!-- قسم الشرائح الثلاث مع البوسترات -->
+  <section class="movies-slides">
+    <!-- شريحة 1: أحدث الأفلام -->
+    <h2>أحدث الأفلام</h2>
+    <div class="movie-slider-container">
+      <div class="slider-navigation">
+        <button class="slider-nav-right"><span class="material-icons">arrow_forward</span></button>
+        <button class="slider-nav-left"><span class="material-icons">arrow_back</span></button>
+      </div>
+      <div class="slide">
+        <div class="poster-group group1">
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/mVWbMjgZ/5933909795654452732-1.jpg" alt="Poster 1">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/pvzDY1wF/5933909795654452731-1.jpg" alt="Poster 2">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/Rpbw3GfP/5bcb94e90b456bfc7ea538e66fe52b7d.jpg" alt="Poster 3">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/TBN7JLhp/lion.jpg" alt="Poster 4">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/8npfgX1L/Avengers.jpg" alt="Poster 5">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/jvxj1tyX/55.jpg" alt="Poster 6">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/LDZBZybd/Last.jpg" alt="Poster 7">
+            </a>
+          </div>
+        </div>
+        <div class="poster-group group2" style="display: none;">
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/Y70NH8rR/Jurrasic.jpg" alt="Poster 8">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/hF4MMBKy/5933577086012868939-1.jpg" alt="Poster 9">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/QFM4T9j1/2ce63ba272cc987c8a4600b60ce9a595.jpg" alt="Poster 10">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/MkFSrfMR/aa39574b40081259b8b674dcc78c86d3.jpg" alt="Poster 11">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/cSxwMPXK/74f687c316ea2304bc42611f818495f2.jpg" alt="Poster 12">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/4ZfzxzvC/99f8702093bd74454c4636a33f558c4a.jpg" alt="Poster 13">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/xq69sCZ2/e3c10a9ba8f69c0d3e56d38c97debdd3.jpg" alt="Poster 14">
+            </a>
+          </div>
+        </div>
+        </div>
+      </div>
+    <!-- شريحة 2: أفضل المسلسلات -->
+    <h2>أفضل المسلسلات</h2>
+    <div class="movie-slider-container">
+      <div class="slider-navigation">
+        <button class="slider-nav-right"><span class="material-icons">arrow_forward</span></button>
+        <button class="slider-nav-left"><span class="material-icons">arrow_back</span></button>
+      </div>
+      <div class="slide">
+        <div class="poster-group group1">
+         <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/8gzF5vXQ/37627587496965efcc0ae42ac9dff525.jpg" alt="Poster 1">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/S4pSfrcm/b25223c9de4005c544dac41e71a2f889.jpg" alt="Poster 2">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/chsLjYQ3/659bfa81800eccfed26deb744cff265b.jpg" alt="Poster 3">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/wF8zD0VJ/94803945c64f55b9f571f296b61cf690.jpg" alt="Poster 4">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/4nMfhJFx/82986b750fd100030e52d79e56f3050f.jpg" alt="Poster 5">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/ccr2cGcy/e82f828f60f7d210d7c8574595c771e9.jpg" alt="Poster 6">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/qMnZgx2P/0ff5c83cb823e75b6cd7e7cad39f81e6.jpg" alt="Poster 7">
+            </a>
+          </div>
+ </div>
+        <div class="poster-group group2" style="display: none;">
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/ynC0WMgK/c97082c84de7ad7db64c80cfeab9532f.jpg" alt="Poster 8">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/bjcBcZWx/a2d3d9517e9dfad35761174dc840cec6.jpg" alt="Poster 9">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/5gqhdBr3/471bcd0d2ebb45c3c5a0ba03e59b07e0.jpg" alt="Poster 10">
+            </a>
+          </div>
+<div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/fV4qCjCs/cc6401fbcaa466adb3ab81669f3102ff.jpg" alt="Poster 11">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/5gqgQ3LH/d58f4be910c323f2944cc979c4714599.jpg" alt="Poster 12">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/6d0ZRC2/8ebd48f66f760c1066bb7f82204d8866.jpg" alt="Poster 13">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/F4ffTyFv/d4d253d681f1849c43bd14eea4eb5c5f.jpg" alt="Poster 14">
+            </a>
+          </div>
+           </div>
+         </div>
+       </div>
+    <!-- شريحة 3: الأفلام الأعلى تقييماً -->
+    <h2>الأفلام الأعلى تقييماً</h2>
+    <div class="movie-slider-container">
+      <div class="slider-navigation">
+        <button class="slider-nav-right"><span class="material-icons">arrow_forward</span></button>
+        <button class="slider-nav-left"><span class="material-icons">arrow_back</span></button>
+      </div>
+      <div class="slide">
+        <div class="poster-group group1">
+         <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/yFXWsr3W/3ce0511f66ed2e5eda9a18115276ef88.jpg" alt="Poster 1">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/JwK3rkSS/8816b05be4567829bce29fd49fb1b7ea.jpg" alt="Poster 2">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/KjsdF08C/3a2d34f0a80d0a462ed5b953df963a3e.jpg" alt="Poster 3">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/hRYsnxqC/cd39e3e34692dfbce01fa38b79e507ee.jpg" alt="Poster 4">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/QFG7PjCC/6412e18357d7ccf9c88d8528a1512686.jpg" alt="Poster 5">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/JfdW0Tm/54f9bff1b593c0bc19fd143c426606fe.jpg" alt="Poster 6">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/LXP3Rc38/eaa26e2c3bfa234c3cdd3c4d9fabad35.jpg" alt="Poster 7">
+            </a>
+          </div>
+ </div>
+        <div class="poster-group group2" style="display: none;">
+                   <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/zVXSsBk4/a20be4fbd8f1a710d8addfad59b78f30.jpg" alt="Poster 8">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/8ZF4CcJ/40f7b2d47f3184494c55332799947a02.jpg" alt="Poster 9">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/21PSsDQg/6fd864ffee03fa335127ce3f1d7ae310.jpg" alt="Poster 10">
+            </a>
+          </div>
+<div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/WWKnKTQs/8d27959c59f8dea110834b5d27d6b922.jpg" alt="Poster 11">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/HTHmqmHF/d270896d9bfbc63513d1090224070e8b.jpg" alt="Poster 12">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/BSnnv13/a535f73905f5127f87fb7bd558e4be87.jpg" alt="Poster 13">
+            </a>
+          </div>
+          <div class="poster">
+            <a href="movie-details.html">
+              <img src="https://i.ibb.co/WvYddRc9/a92a96911bc6e1ffb92a98c67271fb24.jpg" alt="Poster 14">
+            </a>
+          </div>
+           </div>
+         </div>
+       </div>
+  </section>
+
+  <!-- كود الجافاسكريبت لتشغيل الكاروسيل وتبديل مجموعات البوسترات -->
+  <script>
+    // مصفوفة الأفلام مع التفاصيل الخاصة بالكاروسيل في الهيرو
+    
+const apiKey = '770f9ab527c9ae9280f041e87b1f251a'; // مفتاح TMDB
+let movies = [];
+let currentMovieIndex = 0;
+
+// DOM جاهز
+document.addEventListener("DOMContentLoaded", fetchPopularMovies);
+
+// عناصر DOM الخاصة بالعرض
+const hero = document.querySelector('.hero');
+const titleEl = document.querySelector('.movie-info h1');
+const descriptionEl = document.querySelector('.movie-info .description');
+const detailsEl = document.querySelector('.movie-details');
+
+// تحديث الفيلم في واجهة الهيرو
+function updateMovie() {
+  if (!movies.length) return;
+  const movie = movies[currentMovieIndex];
+
+  // الخلفية
+  if (movie.backdrop_path) {
+    hero.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`;
+  } else {
+    hero.style.backgroundImage = 'none';
+  }
+
+  // العنوان والوصف والتفاصيل
+  titleEl.textContent = movie.title;
+  descriptionEl.textContent = movie.overview || 'لا يوجد وصف متاح.';
+  detailsEl.innerHTML = `
+    <span>التقييم: ${movie.vote_average}/10</span>
+    <span>عدد المقيمين: ${movie.vote_count}</span>
+    <span>تاريخ الإصدار: ${movie.release_date}</span>
+  `;
+
+  updateDots();
+}
+
+// تحميل أفلام شهيرة من TMDB
+function fetchPopularMovies() {
+  fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=ar`)
+    .then(response => response.json())
+    .then(data => {
+      movies = data.results;
+      updateMovie();         // أول فيلم يظهر
+      displayMovies(movies); // عرض البوسترات
+    })
+    .catch(error => console.error('TMDB error:', error));
+}
+
+// عرض البوسترات في شريط الشرائح
+function displayMovies(movies) {
+  let html = '<section class="movies-slides"><h2>أفلام مشهورة</h2><div class="movie-slider-container"><div class="poster-group">';
+  movies.forEach(movie => {
+    if (movie.poster_path) {
+      html += `
+        <div class="poster">
+          <a href="#">
+            <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}">
+          </a>
+        </div>`;
+    }
+  });
+  html += '</div></div></section>';
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+
+// تحديث نقاط التنقل (dots)
+function updateDots() {
+  const dotsContainer = document.querySelector('.dots');
+  dotsContainer.innerHTML = '';
+  movies.forEach((_, index) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    if (index === currentMovieIndex) dot.classList.add('active');
+    dot.addEventListener('click', () => {
+      currentMovieIndex = index;
+      updateMovie();
+    });
+    dotsContainer.appendChild(dot);
+  });
+}
+
+// أزرار التنقل
+document.querySelector('.next').addEventListener('click', () => {
+  currentMovieIndex = (currentMovieIndex + 1) % movies.length;
+  updateMovie();
+});
+
+document.querySelector('.prev').addEventListener('click', () => {
+  currentMovieIndex = (currentMovieIndex - 1 + movies.length) % movies.length;
+  updateMovie();
+});
+
+// البحث داخل TMDB
+document.querySelector('.search-box button').addEventListener('click', function(e) {
+  e.preventDefault();
+  const query = document.querySelector('.search-box input').value.trim();
+  if (!query) return;
+
+  fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}&language=ar`)
+    .then(response => response.json())
+    .then(data => {
+      let resultsHTML = `<section class="movies-slides"><h2>نتائج البحث لـ "${query}"</h2><div class="movie-slider-container"><div class="poster-group">`;
+
+      if (data.results.length === 0) {
+        resultsHTML += `<p>لا توجد نتائج.</p>`;
+      } else {
+        data.results.forEach(movie => {
+          if (movie.poster_path) {
+            resultsHTML += `
+              <div class="poster">
+                <a href="#">
+                  <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}">
+                </a>
+              </div>`;
+          }
+        });
+      }
+
+      resultsHTML += `</div></div></section>`;
+      document.body.insertAdjacentHTML('beforeend', resultsHTML);
+    })
+    .catch(err => console.error(err));
+});
+
+
+    
+
+  </script>
+</body>
+</html>
+
+
+
+
+
