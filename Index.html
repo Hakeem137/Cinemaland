@@ -927,7 +927,55 @@ document.querySelector('.search-box button').addEventListener('click', function(
     .catch(err => console.error(err));
 });
 
+document.querySelector('.filters-form').addEventListener('submit', function(e) {
+  e.preventDefault();
 
+  const type = document.getElementById('type').value;
+  const country = document.getElementById('country').value;
+  const yearFrom = document.getElementById('yearFrom').value;
+  const yearTo = document.getElementById('yearTo').value;
+  const imdbMin = document.getElementById('imdbMin').value;
+  const imdbMax = document.getElementById('imdbMax').value;
+  const sortBy = document.getElementById('sortBy').value;
+
+  let url = `https://api.themoviedb.org/3/discover/${type === 'series' ? 'tv' : 'movie'}?api_key=${apiKey}&language=ar`;
+
+  if (country) url += `&region=${country.toUpperCase()}`;
+  if (yearFrom) url += `&primary_release_date.gte=${yearFrom}-01-01`;
+  if (yearTo) url += `&primary_release_date.lte=${yearTo}-12-31`;
+  if (imdbMin) url += `&vote_average.gte=${imdbMin}`;
+  if (imdbMax) url += `&vote_average.lte=${imdbMax}`;
+
+  switch (sortBy) {
+    case 'latest': url += `&sort_by=primary_release_date.desc`; break;
+    case 'oldest': url += `&sort_by=primary_release_date.asc`; break;
+    case 'ratingDesc': url += `&sort_by=vote_average.desc`; break;
+    case 'ratingAsc': url += `&sort_by=vote_average.asc`; break;
+  }
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      let resultsHTML = `<section class="movies-slides"><h2>نتائج البحث المتقدم</h2><div class="movie-slider-container"><div class="poster-group">`;
+      if (data.results.length === 0) {
+        resultsHTML += `<p>لا توجد نتائج.</p>`;
+      } else {
+        data.results.forEach(movie => {
+          if (movie.poster_path) {
+            resultsHTML += `
+              <div class="poster">
+                <a href="#">
+                  <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title || movie.name}">
+                </a>
+              </div>`;
+          }
+        });
+      }
+      resultsHTML += `</div></div></section>`;
+      document.body.insertAdjacentHTML('beforeend', resultsHTML);
+    })
+    .catch(err => console.error(err));
+});
     
 
   </script>
