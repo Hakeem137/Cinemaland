@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عنّا</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+    }
+ 
+.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      padding: 15px 0;
+      position: absolute;
+      top: 0;
+    }
+     .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: red;
+    }
+
+.nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 2px solid red;
+      border-radius: 20px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-links li a:hover {
+      background-color: red;
+      color: #fff;
+    }
+ .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 5px;
+      border-radius: 5px;
+    }
+    .search-box input {
+      background: none;
+      border: none;
+      color: white;
+      padding: 5px;
+    }
+    .search-box button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 24px;
+    }
+    /* ✅ الفوتر */
+    main {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(to bottom, #000, #111);
+  border-top: 2px solid red;
+  border-bottom: 2px solid red;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+}
+
+main h1 {
+  color: red;
+  font-size: 36px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+main p {
+  color: #ccc;
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto 20px;
+}
+
+    /* ✅ محتوى الصفحة */
+
+    
+  .hero {
+      position: relative;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-image 0.5s ease-in-out;
+      padding: 0 20px;
+    }
+  .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .auth-buttons button, .watch-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: 16px;
+      position: relative;
+      transition: 0.3s;
+    }
+    .auth-buttons button::before, .watch-btn::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 25px;
+      border: 2px solid red;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .auth-buttons button:hover::before, .watch-btn:hover::before {
+      opacity: 1;
+    }
+ </style>
+</head>
+
+<body>
+ <header class="hero">
+    <nav class="navbar">
+      <div class="logo">سينما لاند</div>
+      <ul class="nav-links">
+        <li><a href="#">الصفحة الرئيسية</a></li>
+        <li><a href="#">أفلام</a></li>
+        <li><a href="#">مسلسلات</a></li>
+        <li><a href="#">تواصل معنا</a></li>
+        <li><a href="#">عنّا</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <button class="login">تسجيل الدخول</button>
+        <button class="register">تسجيل</button>
+      </div>
+      <div class="search-box">
+        <input type="text" placeholder="ابحث...">
+        <button>
+          <span class="material-icons">search</span>
+        </button>
+      </div>
+    </nav>
+  <main>
+  <h1>عنّا</h1>
+  <p>
+    مرحبًا بك في <strong>سينما لاند</strong> — وجهتك المفضلة لاستكشاف عالم السينما والمسلسلات.
+    نحن هنا لنجمع لك أفضل وأحدث الأعمال السينمائية العالمية في مكان واحد.
+  </p>
+  <p>
+    يهدف موقعنا إلى تقديم تجربة سهلة وسريعة للبحث عن الأفلام والمسلسلات مع تفاصيل دقيقة ومحدثة باستمرار من قاعدة بيانات <strong>TMDB</strong>.
+  </p>
+  <p>
+    نحن نوفر لك المشاهدة أو تحميل الأفلام، ونساعدك في اكتشاف الأعمال الجديدة والتعرف على تقييماتها وتفاصيلها بأفضل جودة ممكنه لنوفر لك الراحة التي تلائمك.
+  </p>
+  <p>
+    نسعد دائمًا بتواصلكم معنا واقتراحاتكم لتطوير الموقع باستمرار.
+  </p>
+</main>
+</body>
