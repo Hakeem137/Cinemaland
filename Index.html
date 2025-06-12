@@ -288,6 +288,8 @@
       color: #aaa;
       font-size: 14px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      scroll-snap-align: start;
+      flex: 0 0 auto;
     }
     .poster:hover {
       transform: scale(1.05);
@@ -326,10 +328,14 @@
       transform: scale(0.9);
     }
     .poster-group {
-      display: flex;
+      display: nowrap;
       flex-wrap: wrap;
-      justify-content: center;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+     gscroll-behavior: smooth;
       gap:15px;
+      padding:10px 0;
     }
     .poster img{
       width: 100%;
@@ -386,7 +392,25 @@
         height: 200px;
       }
     }
-    
+      @media (max-width: 768px) {
+
+        .poster {
+          width: 120px;
+          height: 200px;
+        }
+
+        .movie-info h1 {
+          font-size: 32px;
+        }
+
+        .movie-info .description {
+          font-size: 32px;
+        }
+
+        .poster-group {
+          padding: 0 10px;
+        }
+      }
     /* ==== تحسين إضافي للأجهزة الصغيرة جدًا (مثلاً شاشات أقل من 480px) ==== */
     @media (max-width: 480px) {
       .logo {
