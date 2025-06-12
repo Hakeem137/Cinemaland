@@ -992,8 +992,10 @@ document.querySelector('.filters-form').addEventListener('submit', function(e) {
     })
     .catch(err => console.error(err));
 });
-    
 
+    document.querySelector('.login').AddEventListener('click', () => {
+      window.location.href='login.html';
+    });
   </script>
 </body>
 </html>
