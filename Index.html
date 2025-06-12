@@ -836,9 +836,17 @@ function fetchPopularMovies() {
   fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=ar`)
     .then(response => response.json())
     .then(data => {
-      movies = data.results;
+      movies = data.results.slice(0,4); 
       updateMovie();         // أول فيلم يظهر
       displayMovies(movies); // عرض البوسترات
+
+      
+      setinterval(() => {
+        currentMovieIndex = 
+          (currentmovieIndex +1) %
+          movies.length;
+        updateMovie();
+      }, 1000 * 60 * 60);
     })
     .catch(error => console.error('TMDB error:', error));
 }
