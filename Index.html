@@ -368,7 +368,8 @@
         transform: none;
         text-align: center;
         max-width: 100%;
-        padding: 20px 0;
+        padding: 20px ;
+        margin: 0 auto;
       }
       .movie-info h1 {
         font-size: 32px;
@@ -390,27 +391,18 @@
       .poster {
         width: 120px;
         height: 200px;
+      
       }
-    }
-      @media (max-width: 768px) {
-
-        .poster {
-          width: 120px;
-          height: 200px;
-        }
-
-        .movie-info h1 {
-          font-size: 32px;
-        }
-
-        .movie-info .description {
-          font-size: 32px;
-        }
-
-        .poster-group {
-          padding: 0 10px;
-        }
+      .advanced-search,
+      .movies-slides,
+      .movie-slider-container, 
+     .movie-info,
+      .poster-group {
+        margin-left: auto;
+        margin-right:auto;
+        text-align: center;
       }
+      
     /* ==== تحسين إضافي للأجهزة الصغيرة جدًا (مثلاً شاشات أقل من 480px) ==== */
     @media (max-width: 480px) {
       .logo {
