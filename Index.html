@@ -424,8 +424,12 @@
         <li><a href="AboutUs.html">عنّا</a></li>
       </ul>
       <div class="auth-buttons">
-        <button id="loginBtn">تسجيل الدخول</button>
-        <button id="signupBtn">تسجيل</button>
+        <a href="/Login.html" class="login-btn">
+          <button>تسجيل الدخول</button>
+        </a>
+        <a href="#" class="Signup-btn">
+          <button>انشاء حساب</button>
+        </a>
       </div>
       <div class="search-box">
         <input type="text" placeholder="ابحث...">
@@ -994,14 +998,7 @@ document.querySelector('.filters-form').addEventListener('submit', function(e) {
 });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-const loginButton = document.getElementById('.loginBtn');
 
-  if (LoginButton) {
-   LoginButton.addEventListener('click', function () {
-      window.location.href = '/login.html';
-    });
-});
   </script>
 </body>
 </html>
