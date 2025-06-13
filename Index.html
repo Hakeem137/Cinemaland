@@ -727,7 +727,7 @@ const apikey = '770f9ab527c9ae9280f041e87b1f251a';
   
 
     function renderFixedSection() {
-      Let html = `<h2>مميزة</h2><div class="movie-slider-container"><div class="poster-group">`;
+      let html = `<h2>مميزة</h2><div class="movie-slider-container"><div class="poster-group">`;
       promise.all(featuredIds.map(id =>
         fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apikey}&language=en-US`).then(res => res.json())
         )).then(results => {
