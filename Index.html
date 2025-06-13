@@ -497,7 +497,7 @@
   </section>
 
   <!-- قسم الشرائح الثلاث مع البوسترات -->
-<section class="movies-slides"></section>
+<section id="tmdb-sliders" class="movies-slides"></section>
 
   <!-- كود الجافاسكريبت لتشغيل الكاروسيل وتبديل مجموعات البوسترات -->
   <script>
@@ -766,9 +766,31 @@ html += '</div></div>';
      });
     }
 
-    renderFixedSection();
-    renderSection('أفضل المسلسلات', 'tv/popular');
-    renderSection('الأفلام الأعلي تقييماً', 'movie/top_rated');
+    document.addEventListener("DOMContentLoaded", () => {
+      const tmdbContainer = document.getElementById('tmdb-sliders');
+      function renderSlider(title, endpoint) {
+        fetch(`https://api.themoviedb.org/3/${apikey}&language=ar&region=US`)
+     .then(res => res.json())
+     .then(data => {
+       let html = `<section class="movies-slides"><h2>${title}</h2><div class="movie-slider-container"><div class="poster-group">`;
+     data.results.forEach(item => {
+       if (item.poster_path) {
+         html += `
+         <div class="poster">
+         <a href="movie-details.html?id=${item.id}">
+         <img src="https://image.tmdb.org/t/p/w300${item.poster_path}" alt="${item.title || item.name}">
+</a>
+</div>`;
+       }
+     });
+       html += `</div></div></section>`;
+   tmdbContainer.insertAdjacentHTML('beforeend, html);
+                                    });
+      }
+      renderSlider('أحدث الأفلام', 'movie/now_playing');
+      renderSlider('الأعلي تقييماً', 'movie/top_rated');
+        renderSlider('الأكثر مشاهدة', 'movie/popular');
+    });
   </script>
 </body>
 </html>
