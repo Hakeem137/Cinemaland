@@ -682,6 +682,9 @@ document.querySelector('.filters-form').addEventListener('submit', function(e) {
       }
       resultsHTML += `</div></div></section>`;
       document.body.insertAdjacentHTML('beforeend', resultsHTML);
+  renderSection('أحدث الأفلام', 'movie/now_playing');
+      renderSection('الأعلي تقييماٌ', 'movie/top_rated');
+      renderSection('الأكثر مشاهدة', 'movie/popular');
     })
     .catch(err => console.error(err));
 });
