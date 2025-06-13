@@ -722,7 +722,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-const apikey = '770f9ab527c9ae9280f041e87b1f251a';
     const slidesContainer = document.querySelector('.movies-slides');
     slidesContainer.innerHTML = '';
     const featuredIds = [1396, 66732, 120, 1399];
@@ -769,7 +768,7 @@ html += '</div></div>';
     document.addEventListener("DOMContentLoaded", () => {
       const tmdbContainer = document.getElementById('tmdb-sliders');
       function renderSlider(title, endpoint) {
-        fetch(`https://api.themoviedb.org/3/${apikey}&language=ar&region=US`)
+        fetch(`https://api.themoviedb.org/3/${endpoint}?api_key=${apiKey}&language=ar&region=US`)
      .then(res => res.json())
      .then(data => {
        let html = `<section class="movies-slides"><h2>${title}</h2><div class="movie-slider-container"><div class="poster-group">`;
@@ -784,7 +783,7 @@ html += '</div></div>';
        }
      });
        html += `</div></div></section>`;
-   tmdbContainer.insertAdjacentHTML('beforeend, html);
+   tmdbContainer.insertAdjacentHTML('beforeend', html);
                                     });
       }
       renderSlider('أحدث الأفلام', 'movie/now_playing');
