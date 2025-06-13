@@ -346,7 +346,7 @@
     }
     
     /* ==== تحسين التوافق مع شاشات الهواتف والأجهزة الصغيرة ==== */
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
 * {
   box-sizing: border-box;
 }
@@ -417,7 +417,13 @@
         position: static;
         margin-top: 20px;
       }
-      
+      .container {
+        width: 100%;
+        padding: 0;
+        margin: 0 auto;
+        display:flex;
+        flex-wrap: wrap;
+      }
     }
       /* ==== تحسين إضافي للأجهزة الصغيرة جدًا (مثلاً شاشات أقل من 480px) ==== */
     @media (max-width: 480px) {
