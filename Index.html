@@ -344,13 +344,52 @@
       object-fit: cover;
       transform: scale(1.2);
     }
-    
-    /* ==== تحسين التوافق مع شاشات الهواتف والأجهزة الصغيرة ==== */
 
-      /* ==== تحسين إضافي للأجهزة الصغيرة جدًا (مثلاً شاشات أقل من 480px) ==== */
+      @media (max-width: 768px) {
+        .advanced-search {
+          width: 90%;
+          margin: 30px auto;
+          padding: 20px;
+          background: rgba(0, 0, 0, 0.8);
+          border-radius: 10px;
+        }
+.filters-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-      
+        .filter-group,
+        .filter-group-inline {
+          display: flex;
+          flex-direction: column;
+        }
 
+        .filter-group label,
+        .filter-group-inline label {
+          font-size: 16px;
+          margin-bottom: 10px;
+        }
+        .filter-group select,
+        .filter-group input {
+          padding: 10px;
+          font-size: 14px;
+          border-radius: 5px;
+          width: 100%;
+        }
+        .filter-group-inline {
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 10px;
+        }
+        .search-button {
+          grid-column: 1 / -1;
+          padding: 12px;
+          font-size: 18px;
+          width: 100%;
+        }
+      }
         </style>
 </head>
 <body>
