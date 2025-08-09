@@ -403,32 +403,26 @@
     position: absolute;
     right: 20px;
   }
-        .hero-poster {
-          width: 100%;
-          overflow: hidden;
-          position: relative;
+        
+        
+        .movie-info {
+     display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 0;
+          height: 100vh;
+          background: none;
         }
 
-        .hero-poster-group {
-          display: flex;
-flex-wrap: nowrap;
-          gap: 10px;
-          justify-content: flex-start;
-          animation: slide 7s infinite;
+        .movie-poster img {
+          width: 90%;
+          height: auto;
+      border-radius: 10px;
         }
-        .hero-poster {
-          width: 150px;
-         max-width: 100%;
-          height: 300px;
-         border-radius: 10px;
-          overflow: hidden;
-        }
-
-        .hero-poster img {
-          width: 100%;
-          height: 100%;
-      object-fit: cover;
-        }
+        .movie-info .movie-detail,
+        .movie-info .watch-btn {
+          display: none;
+        } 
       @keyframes slide {
         0% {
           transform: translateX(0);
