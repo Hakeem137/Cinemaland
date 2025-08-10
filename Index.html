@@ -404,34 +404,38 @@
     right: 20px;
   }
         .hero {
-          height: 60vh;
-          padding: 0 10px;
+          height: 40vh;
+          justify-content: center;
         }
         
         .movie-info {
-     max-width: 90%;
-          right: 5%;
-          text-align: center;
+ display: none !important;
         }
-.movie-info h1 {
-  font-size: 24px;
-}
-        .movie-info .description {
-          font-size:24px;
-        }
-        .movie-details {
-          flex-direction: column;
-          gap: 5px;
-        }
-        .movie-details span {
-          border-right: none;
-          padding: 5px 0;
-        }
+
         .carousel {
-          bottom: 5%;
+          display: none !important;
+        }
+        .hero::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0,0,0,0.3));
+          border-radius: 15px;
+          margin: 10px;
+        }
+
+        .hero { 
+          background-size: cover;
+background-position: center;
+          border-radius: 15px;
+          margin: 10px;
+          overflow: hidden;
         }
       @keyframes slide {
-        0% {
+          0% {
           transform: translateX(0);
         }
         33% {
@@ -447,18 +451,10 @@
       }
       @media (max-width: 480px) {
       .hero {
-        height: 50vh;
+        height: 30vh;
+        border-radius: 10px;
       }
-        .movie-info h1 {
-          font-size: 20px;
-        }
-        .movie-info .description {
-          font-size: 12px;
-        }
-  .watch-btn {
-    padding: 8px 12px;
-      font-size: 14px;
-  }
+        
         .advanced-search {
        padding: 15px;
      }
