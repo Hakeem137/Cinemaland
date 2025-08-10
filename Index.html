@@ -405,7 +405,7 @@
   }
         
         
-        .movie-info {
+        .hero .movie-info {
      display: flex;
           justify-content: center;
           align-items: center;
@@ -414,13 +414,13 @@
           background: none;
         }
 
-        .movie-info .movie-poster img {
+        .hero .movie-info .movie-poster img {
           width: 50%;
           height: auto;
       border-radius: 15px;
         }
-        .movie-info .movie-detail,
-        .movie-info .watch-btn {
+        .hero movie-info .movie-detail,
+        .hero movie-info .watch-btn {
           display: none;
         } 
       @keyframes slide {
@@ -439,13 +439,15 @@
       }
       }
       @media (max-width: 480px) {
-   .hero-poster {
-     height: 250px;
+   .hero .movie-info .movie-poster img {
+     width: 70%;
    }
-        .hero-poster img {
-          object-fit: cover;
+        .hero .movie-info h1,
+        .hero .movie-info .description {
+font-size: 16px;
         }
-        .advanced-search {
+          
+          .advanced-search {
        padding: 15px;
      }
         .filters-form {
