@@ -413,16 +413,23 @@
           right: 5%;
           text-align: center;
         }
-
-        .hero .movie-info .movie-poster img {
-          width: 50%;
-          height: auto;
-      border-radius: 15px;
+.movie-info h1 {
+  font-size: 24px;
+}
+        .movie-info .description {
+          font-size:24px;
         }
-        .hero movie-info .movie-detail,
-        .hero movie-info .watch-btn {
-          display: none;
-        } 
+        .movie-details {
+          flex-direction: column;
+          gap: 5px;
+        }
+        .movie-details span {
+          border-right: none;
+          padding: 5px 0;
+        }
+        .carousel {
+          bottom: 5%;
+        }
       @keyframes slide {
         0% {
           transform: translateX(0);
@@ -439,15 +446,20 @@
       }
       }
       @media (max-width: 480px) {
-   .hero .movie-info .movie-poster img {
-     width: 70%;
-   }
-        .hero .movie-info h1,
-        .hero .movie-info .description {
-font-size: 16px;
+      .hero {
+        height: 50vh;
+      }
+        .movie-info h1 {
+          font-size: 20px;
         }
-          
-          .advanced-search {
+        .movie-info .description {
+          font-size: 12px;
+        }
+  .watch-btn {
+    padding: 8px 12px;
+      font-size: 14px;
+  }
+        .advanced-search {
        padding: 15px;
      }
         .filters-form {
