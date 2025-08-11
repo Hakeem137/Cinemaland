@@ -6,6 +6,8 @@
   <title>CinemaLand - تسجيل الدخول وإنشاء حساب</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+ <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <style>
     /* التنسيقات الأساسية للموقع */
     body {
@@ -495,6 +497,19 @@
   </div>
 
   <script>
+    //التعديلات بتاعت Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCJNX1JVW2C1fxV8rUFivUFivMTb1CnNaLbQGE",
+      authDomain: "cinemaland-be410.firebaseapp.com",
+      projectId:"cinemaland-be410",
+      storageBucket: "cinemaland-be410.firebasestorage.app",
+      messagingSenderId: "232950096339",
+      appId: "1:232950096339:web:ab441db80a42f1d84a4f26",
+      measurementId: "G-7VWECZ7DTN"
+    };
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    
     // إنشاء تأثيرات الجسيمات
     function createParticles() {
       const effect = document.getElementById('cinema-effect');
@@ -572,104 +587,72 @@
         });
       });
     }
-    
-    // التحقق من صحة النماذج
+    //التعديلات الجديده firebase
     function setupFormValidation() {
-      // نموذج تسجيل الدخول
       const loginForm = document.getElementById('login-form');
-      loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        let isValid = true;
-        
-        // التحقق من البريد الإلكتروني
-        const emailError = document.getElementById('login-email-error');
-        if (!validateEmail(email)) {
-          emailError.style.display = 'block';
-          isValid = false;
-        } else {
-          emailError.style.display = 'none';
-        }
-        
-        // التحقق من كلمة المرور
-        const passwordError = document.getElementById('login-password-error');
-        if (password.length < 6) {
-          passwordError.style.display = 'block';
-          isValid = false;
-        } else {
-          passwordError.style.display = 'none';
-        }
-        
-        if (isValid) {
-          // هنا سيتم إرسال البيانات إلى الخادم
-          alert('تم تسجيل الدخول بنجاح! سيتم توجيهك إلى الصفحة الرئيسية.');
-          setTimeout(() => {
-            window.location.href = 'https://cinemalandd.netlify.app';
-          }, 1500);
-        }
-      });
-      
-      // نموذج إنشاء الحساب
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('Login-email').value;
+  const password = document.getElementById('login-password').value;
+    //اخفاء رسائل الخطأ القديمة
+  document.getElementById('login-email-error').style.display = 'none';
+  document.getElementById('login-password-error'.style.display = 'none';
+
+  auth.signInWithEmailAndPassword(email, password)
+  .then(() => {
+    window.location.href = "https://cinemalandd.netlify.app";
+  })
+   .catcha((error) => {
+     document.getElementById('login-password-error').textContent = error.message;
+     document.getElementById('login-password-error').style.display = 'block';
+   });
+});
+
+      //إنشاء حساب 
       const signupForm = document.getElementById('signup-form');
       signupForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
         const name = document.getElementById('signup-name').value;
         const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
-        const confirm = document.getElementById('signup-confirm').value;
-        let isValid = true;
-        
-        // التحقق من الاسم
-        const nameError = document.getElementById('signup-name-error');
-        if (name.length < 3) {
-          nameError.style.display = 'block';
-          isValid = false;
-        } else {
-          nameError.style.display = 'none';
-        }
-        
-        // التحقق من البريد الإلكتروني
-        const emailError = document.getElementById('signup-email-error');
-        if (!validateEmail(email)) {
-          emailError.style.display = 'block';
-          isValid = false;
-        } else {
-          emailError.style.display = 'none';
-        }
-        
-        // التحقق من كلمة المرور
-        const passwordError = document.getElementById('signup-password-error');
+const password = document.getElementById('signup-password').value;
+        const confirm = document.getElementById('signup-confirm').value;        
+
+document.querySelectorAll('.error-message').forEach(el => {
+  el.style.display = 'none';
+});
+     
+  if (password !== confirm) {
+    document.getElementById('signup-confirm-error').textContent = 'كلمات المرور غير متطابقة';
+    document.getElementById('signup-confirm-error').style.display = 'block';
+return;
+  }
+
         if (password.length < 8) {
-          passwordError.style.display = 'block';
-          isValid = false;
-        } else {
-          passwordError.style.display = 'none';
-        }
-        
-        // التحقق من تطابق كلمات المرور
-        const confirmError = document.getElementById('signup-confirm-error');
-        if (password !== confirm) {
-          confirmError.style.display = 'block';
-          isValid = false;
-        } else {
-          confirmError.style.display = 'none';
-        }
-        
-        if (isValid) {
-          // هنا سيتم إرسال البيانات إلى الخادم
-          alert('تم إنشاء حسابك بنجاح! يمكنك الآن تسجيل الدخول.');
-          document.querySelector('.auth-tab[data-tab="login"]').click();
+          document.getElementById('signup-password-error').textContent = ' كلمة المرور يجب أن تكون 8 أحرف علي الأقل';
           
-          // تنظيف الحقول
-          signupForm.reset();
+          document.getElementById('signup-password-error').style.display = 'block';
+          return;
         }
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          return userCredential.user.updateProfile({ displayName: name });
+        })
+        .then(() => {
+          alert('تم إنشاء الحساب بنجاح!');
+          document.querySelector('.auth-tab[data-tab="login"]').click();
+          signupForm.reset();
+        })
+        .catch((error) => {
+          const errorElement = error.message.includes('email') ?
+            document.getElementById('signup-email-error') :
+            document.getElementById('signup-password-error');
+
+          errorElement.textContent = error.message;
+          errorElement.style.display = 'block';
+        });
       });
     }
-    
-    // دالة للتحقق من صحة البريد الإلكتروني
+        // دالة للتحقق من صحة البريد الإلكتروني
     function validateEmail(email) {
       const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return re.test(email);
