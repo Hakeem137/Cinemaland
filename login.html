@@ -824,17 +824,19 @@
       // محاولة إنشاء حساب اختباري (سيتم حذفه تلقائياً)
       
       auth.signInWithEmailAndPassword("test@example.com", "wrongpassword")
-      .catch(error.code === "auth/invalid-email" || error.code === " auth/wrong-password") {
+        .catch(error => {
+      .if (error.code === "auth/invalid-email" || error.code === " auth/wrong-password") {
           console.log("✅ اتصال Firebase (الخطأ المتوقع بسبب بيانات خاطئة) يعمل");
       } else if (error.code === "auth/api-key-not-valid") {
           console.error("❌ مفتاح Firebase غير صالح!", error);
           alert("يرجي مراجعة التكوين في Firebase مفتاح API غير صالح،");
       } else {
         console.error("خطأ غير متوقع في Firebase:", error);
-        alert('خطأ في الاتصال: ${error.message}`);
+        alert(`خطأ في الاتصال: ${error.message}`);
               }
     });
     }
+    
     // تهيئة الصفحة عند التحميل
     document.addEventListener('DOMContentLoaded', () => {
       createParticles();
