@@ -546,7 +546,7 @@
       apiKey: "AIzaSyCJNX1JVW2C1fxV8rUFivMTb1CnNaLbQGE",
       authDomain: "cinemaland-be410.firebaseapp.com",
       projectId: "cinemaland-be410",
-      storageBucket: "cinemaland-be410.firebasestorage.app",
+      storageBucket: "cinemaland-be410.appspot.com",
       messagingSenderId: "232950096339",
       appId: "1:232950096339:web:ab441db80a42f1d84a4f26",
       measurementId: "G-7VWECZ7DTN"
@@ -554,7 +554,7 @@
     
     // تهيئة Firebase
     const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth(); // تعريف خدمة المصادقة
+    const auth = firebase.auth(app); // تعريف خدمة المصادقة
 
     // إنشاء تأثيرات الجسيمات
     function createParticles() {
@@ -822,20 +822,19 @@
       console.log("جاري اختبار اتصال Firebase...");
       
       // محاولة إنشاء حساب اختباري (سيتم حذفه تلقائياً)
-      const testEmail = `test${Math.floor(Math.random() * 10000)}@example.com`;
-      const testPassword = "Test1234!";
       
-      auth.createUserWithEmailAndPassword(testEmail, testPassword)
-        .then(userCredential => {
-          console.log("✅ اختبار اتصال Firebase ناجح!");
-          return userCredential.user.delete();
-        })
-        .catch(error => {
-          console.error("❌ خطأ في اختبار Firebase:", error);
-          alert(`خطأ في اتصال Firebase: ${error.message}\nيرجى مراجعة تكوين Firebase`);
-        });
+      auth.signInWithEmailAndPassword("test@example.com", "wrongpassword")
+      .catch(error.code === "auth/invalid-email" || error.code === " auth/wrong-password") {
+          console.log("✅ اتصال Firebase (الخطأ المتوقع بسبب بيانات خاطئة) يعمل");
+      } else if (error.code === "auth/api-key-not-valid") {
+          console.error("❌ مفتاح Firebase غير صالح!", error);
+          alert("يرجي مراجعة التكوين في Firebase مفتاح API غير صالح،");
+      } else {
+        console.error("خطأ غير متوقع في Firebase:", error);
+        alert('خطأ في الاتصال: ${error.message}`);
+              }
+    });
     }
-    
     // تهيئة الصفحة عند التحميل
     document.addEventListener('DOMContentLoaded', () => {
       createParticles();
