@@ -825,7 +825,7 @@
       
       auth.signInWithEmailAndPassword("test@example.com", "wrongpassword")
         .catch(error => {
-      .if (error.code === "auth/invalid-email" || error.code === " auth/wrong-password") {
+      if (error.code === "auth/invalid-email" || error.code === " auth/wrong-password") {
           console.log("✅ اتصال Firebase (الخطأ المتوقع بسبب بيانات خاطئة) يعمل");
       } else if (error.code === "auth/api-key-not-valid") {
           console.error("❌ مفتاح Firebase غير صالح!", error);
