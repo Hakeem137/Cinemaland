@@ -1138,7 +1138,7 @@
         <div class="poster" data-movie-id="Zotopia.html">
           <img src="https://i.ibb.co/TD5zbbgW/aa39574b40081259b8b674dcc78c86d3.jpg" alt="مسلسل 5">
         </div>
-        <div class="poster data-movie-id="Cars4.html">
+        <div class="poster" data-movie-id="Cars4.html">
           <img src="https://i.ibb.co/JFGMgmMX/ef6679c17de80fa3a22835274097a046.jpg" alt="مسلسل 6">
         </div>
       </div>
@@ -1182,14 +1182,16 @@
       }
       
       // إضافة معالجات النقر للبوسترات
-      document.querySelectorAll('.poster').forEach(poster => {
-        poster.addEventListener('click', function() {
-          const movieId = this.getAttribute('data-movie-id');
-          if (movieId) {
-            window.location.href = movieId;
+      document.addEventListener('click' , function
+        (e) {
+        const poster = e.target.closest('.poster');
+          if (poster) {
+            const movieId = poster.getAttribute('data-movie-id');
+            if (movieId) {
+             window.location.href = movieId;
+            }
           }
         });
-      });
     
     // نظام التبديل للأفلام في شاشات الكمبيوتر
     function initDesktopCarousel() {
