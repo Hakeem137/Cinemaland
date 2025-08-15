@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaLand - الصفحة الرئيسية</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* التنسيقات الأساسية للموقع */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: white;
+      font-family: 'Tajawal', sans-serif;
+      font-weight:700;
+    }
+    
+    /* شريط التنقل العلوي */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      padding: 15px 5%;
+      background-color: rgba(0, 0, 0, 0.8);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff6b6b;
+      text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links li a {
+      display:inline-block;
+      padding:8px 12px;
+      border:2px solid #ff6b6b;
+      border-radius:20px;
+      text-decoration: none;
+      color: white;
+      transition: 0.3s ease;
+      font-weight:500;
+      font-size: 14px;
+    }
+    .nav-links li a:hover {
+      background-color:#ff6b6b;
+      color: #fff;
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 8px;
+    }
+    .auth-buttons button, .watch-btn {
+      background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: 14px;
+      position: relative;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+    .auth-buttons button::before, .watch-btn::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 25px;
+      border: 2px solid #ff6b6b;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .auth-buttons button:hover::before, .watch-btn:hover::before {
+      opacity: 1;
+    }
+    .auth-buttons button:hover, .watch-btn:hover {
+      background: linear-gradient(to right, #ff5252, #ff7b7b);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 5px;
+      border-radius: 5px;
+      width: 180px;
+      transition: all 0.3s ease;
+    }
+    .search-box:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .search-box input {
+      background: none;
+      border: none;
+      color: white;
+      padding: 5px;
+      width: 100%;
+    }
+    .search-box button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 20px;
+      transition: color 0.3s;
+    }
+    .search-box button:hover {
+      color: #ff6b6b;
+    }
+    
+    /* عرض الفيلم الرئيسي للشاشات الكبيرة */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .hero-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .hero-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .movie-info {
+      text-align: right;
+      position: absolute;
+      right: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 40%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      z-index: 2;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border-left: 4px solid #ff6b6b;
+    }
+    .movie-info h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+      color: #ffb6b6;
+      letter-spacing: 1px;
+    }
+    .movie-info .description {
+      font-size: 18px;
+      line-height: 1.6;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      margin-bottom: 20px;
+      font-weight: normal;
+      color: #e0e0e0;
+    }
+    .movie-details {
+      font-weight: bold;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: #ffd6d6;
+    }
+    .movie-details span {
+      padding: 0 10px;
+      border-right: 2px solid #ff6b6b;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .movie-details span:last-child {
+      border-right: none;
+    }
+    .movie-details span:hover {
+      transform: scale(1.1);
+      color: #ff6b6b;
+    }
+    .watch-btn {
+      margin-top: 25px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .carousel {
+      position: absolute;
+      bottom: 10%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 3;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      background: #555;
+      border-radius: 50%;
+      display: inline-block;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: #ff6b6b;
+      transform: scale(1.3);
+      box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+    }
+    .dot:hover {
+      transform: scale(1.5);
+      background: #ff8e8e;
+    }
+    .carousel button {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 36px;
+      transition: transform 0.2s ease, color 0.2s ease;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+    }
+    .carousel button:hover {
+      color: #ff6b6b;
+      background: rgba(0, 0, 0, 0.7);
+      transform: scale(1.1);
+    }
+    .carousel button:active {
+      transform: scale(0.9);
+    }
+    
+    /* عرض الفيلم الرئيسي للهواتف */
+    .mobile-hero {
+      display: none;
+      padding: 120px 20px 40px;
+      text-align: center;
+      background: linear-gradient(to bottom, #000, #222);
+      position: relative;
+      overflow: hidden;
+    }
+    .mobile-slides-container {
+      position: relative;
+      height: 100%;
+    }
+    .mobile-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      padding: 20px 0;
+    }
+    .mobile-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .mobile-hero h1 {
+      font-size: 28px;
+      color: #ff6b6b;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 2;
+    }
+    .mobile-hero .poster {
+      width: 200px;
+      height: 300px;
+      margin: 0 auto 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #ff6b6b;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+    .mobile-hero .poster:hover {
+      transform: scale(1.03);
+    }
+    .mobile-hero .poster img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .mobile-hero .description {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      padding: 0 10px;
+      color: #e0e0e0;
+      position: relative;
+      z-index: 2;
+    }
+    .mobile-hero .mobile-movie-details {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .mobile-hero .mobile-movie-details span {
+      padding: 8px 15px;
+      background: rgba(255, 107, 107, 0.2);
+      border-radius: 20px;
+      font-size: 14px;
+      color: #ffd6d6;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+    
+    /* ===== قسم البحث المتقدم ===== */
+    .advanced-search {
+      width: 90%;
+      margin: 30px auto 50px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      color: #fff;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+    .advanced-search h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ff6b6b;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      font-size: 28px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    .advanced-search h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: #ff6b6b;
+      border-radius: 3px;
+    }
+    .filters-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 25px;
+      align-items: end;
+    }
+    .filter-group,
+    .filter-group-inline {
+      display: flex;
+      flex-direction: column;
+    }
+    .filter-group-inline {
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+    }
+    .filter-group label,
+    .filter-group-inline label {
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      color: #ffb6b6;
+    }
+    .filter-group select,
+    .filter-group input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #222;
+      color: #fff;
+      transition: all 0.3s;
+      font-size: 15px;
+    }
+    .filter-group select:focus,
+    .filter-group input:focus {
+      outline: none;
+      border-color: #ff6b6b;
+      box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.3);
+    }
+    .filter-group-inline input[type="checkbox"] {
+      transform: scale(1.3);
+      accent-color: #ff6b6b;
+      cursor: pointer;
+    }
+    .search-button {
+      grid-column: 1 / -1;
+      background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+      color: #fff;
+      border: none;
+      padding: 15px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 10px;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+    .search-button:hover {
+      background: linear-gradient(to right, #ff5252, #ff7b7b);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    }
+    
+    /* ===== قسم الشرائح ===== */
+    .movies-slides {
+      width: 90%;
+      margin: 0 auto 50px;
+    }
+    .movies-slides h2 {
+      margin-bottom: 15px;
+      color: #ff6b6b;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      font-size: 26px;
+      padding-right: 10px;
+      border-left: 4px solid #ff6b6b;
+      padding-left: 15px;
+    }
+    /* تنسيق البوسترات */
+    .poster {
+      width: 160px;
+      overflow: hidden;
+      height: 240px;
+      background: #222;
+      border: 2px solid #ff6b6b;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      font-size: 14px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .poster:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+    }
+    .poster::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .poster:hover::before {
+      opacity: 1;
+    }
+    .movie-slider-container {
+      position: relative;
+      margin-bottom: 60px;
+    }
+    .slider-navigation {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 10;
+    }
+    .slider-navigation button {
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 36px;
+      padding: 10px;
+      transition: all 0.3s;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slider-navigation button:hover {
+      color: #ff6b6b;
+      background: rgba(0, 0, 0, 0.8);
+      transform: scale(1.1);
+    }
+    .slider-navigation button:active {
+      transform: scale(0.9);
+    }
+    .poster-group {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      gap: 20px;
+      padding: 15px 0;
+      scrollbar-width: thin;
+      scrollbar-color: #ff6b6b #222;
+    }
+    .poster-group::-webkit-scrollbar {
+      height: 8px;
+    }
+    .poster-group::-webkit-scrollbar-thumb {
+      background: #ff6b6b;
+      border-radius: 4px;
+    }
+    .poster-group::-webkit-scrollbar-track {
+      background: #222;
+      border-radius: 4px;
+    }
+    .poster img{
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .poster:hover img {
+      transform: scale(1.1);
+    }
+    
+    /* القائمة الجانبية للهواتف */
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      font-size: 36px;
+      color: #ff6b6b;
+      z-index: 1001;
+      transition: transform 0.3s;
+    }
+    .hamburger:hover {
+      transform: scale(1.1);
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 250px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      transition: right 0.3s ease;
+      padding-top: 70px;
+      overflow-y: auto;
+      border-left: 2px solid #ff6b6b;
+    }
+    .sidebar.active {
+      right: 0;
+    }
+    .sidebar ul {
+      list-style-type: none;
+      padding: 20px;
+    }
+    .sidebar ul li {
+      margin: 20px 0;
+    }
+    .sidebar ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      display: block;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: 0.3s ease;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+    .sidebar ul li a:hover {
+      background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+      color: #fff;
+      border-color: transparent;
+      transform: translateX(-5px);
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      z-index: 999;
+    }
+    .overlay.active {
+      display: block;
+    }
+    
+    /* تذييل الصفحة */
+    footer {
+      background: #111;
+      padding: 40px 0;
+      text-align: center;
+      color: #aaa;
+      font-size: 16px;
+      border-top: 2px solid #ff6b6b;
+      position: relative;
+    }
+    footer::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #ff6b6b, transparent);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 16px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+    .footer-links a:hover {
+      color: #ff6b6b;
+      border-color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.1);
+    }
+    
+    /* تحسينات للهواتف */
+    @media (max-width: 1024px) {
+      .hero {
+        height: 80vh;
+      }
+      .movie-info {
+        max-width: 50%;
+      }
+      .movie-info h1 {
+        font-size: 36px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 5%;
+      }
+      .nav-links {
+        display: none;
+      }
+      .auth-buttons {
+        display: none;
+      }
+      .search-box {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+      .hero {
+        display: none;
+      }
+      .mobile-hero {
+        display: block;
+        height: 100vh;
+      }
+      .advanced-search {
+        width: 95%;
+        margin: 20px auto;
+        padding: 20px;
+      }
+      .filters-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center; /* توسيط المحتوى في الشاشات الصغيرة */
+      }
+      .filter-group,
+      .filter-group-inline {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* توسيط العناصر داخل المجموعة */
+        text-align: center; /* توسيط النص */
+        width: 100%; /* استخدام العرض الكامل */
+      }
+      .filter-group label,
+      .filter-group-inline label {
+        font-size: 16px;
+        margin-bottom: 8px;
+        width: 100%; /* جعل التسميات تأخذ العرض الكامل لتوسيط النص */
+      }
+      .filter-group select,
+      .filter-group input {
+        padding: 12px;
+        font-size: 16px;
+        width: 100%;
+        text-align: center; /* توسيط النص في حقول الإدخال */
+      }
+      .filter-group-inline {
+        flex-direction: row;
+        justify-content: center; /* توسيط العناصر في مجموعة الـ inline */
+        align-items: center;
+        gap: 10px;
+      }
+      .search-button {
+        padding: 16px;
+        font-size: 18px;
+        margin-top: 15px;
+        width: 100%; /* جعل الزر يأخذ العرض الكامل */
+        max-width: 300px; /* تحديد أقصى عرض للزر */
+      }
+      .poster {
+        width: 140px;
+        height: 210px;
+      }
+      .movies-slides {
+        width: 95%;
+      }
+      .mobile-hero h1 {
+        font-size: 26px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 20px;
+      }
+      .mobile-hero {
+        padding: 100px 15px 30px;
+      }
+      .mobile-hero h1 {
+        font-size: 24px;
+      }
+      .mobile-hero .poster {
+        width: 160px;
+        height: 240px;
+      }
+      .mobile-hero .description {
+        font-size: 15px;
+      }
+      .mobile-hero .mobile-movie-details {
+        gap: 10px;
+      }
+      .mobile-hero .mobile-movie-details span {
+        font-size: 13px;
+        padding: 6px 12px;
+      }
+      .movies-slides h2 {
+        font-size: 22px;
+      }
+      .poster {
+        width: 130px;
+        height: 195px;
+      }
+      .search-button {
+        font-size: 16px;
+      }
+      .footer-links {
+        gap: 15px;
+      }
+      .footer-links a {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- شريط التنقل العلوي -->
+  <nav class="navbar">
+    <div class="logo">سينما لاند</div>
+    <ul class="nav-links">
+      <li><a href="https://cinemalandd.netlify.app">الصفحة الرئيسية</a></li>
+      <li><a href="#">أفلام</a></li>
+      <li><a href="#">مسلسلات</a></li>
+      <li><a href="contact_formsubmit.html">تواصل معنا</a></li>
+      <li><a href="AboutUs.html">عنّا</a></li>
+    </ul>
+
+    <div class="search-box">
+      <input type="text" placeholder="ابحث..." id="search-input">
+      <button id="search-btn">
+        <span class="material-icons">search</span>
+      </button>
+    </div>
+    <div class="hamburger" onclick="toggleSidebar()">
+      <span class="material-icons">menu</span>
+    </div>
+  </nav>
+  
+  <!-- القائمة الجانبية للهواتف -->
+  <div class="sidebar">
+    <ul>
+      <li><a href="https://cinemalandd.netlify.app">الصفحة الرئيسية</a></li>
+      <li><a href="#">أفلام</a></li>
+      <li><a href="#">مسلسلات</a></li>
+      <li><a href="contact_formsubmit.html">تواصل معنا</a></li>
+      <li><a href="AboutUs.html">عنّا</a></li>
+    </ul>
+  </div>
+  <div class="overlay" onclick="toggleSidebar()"></div>
+ 
+  <!-- عرض الفيلم الرئيسي للشاشات الكبيرة -->
+  <header class="hero" id="desktop-hero">
+    <!-- شريحة 1: أوبنهايمر -->
+    <div class="hero-slide active" style="background-image: url('https://i.ibb.co/gLM0WCbn/MM-1207-Oppenheimer.jpg')">
+      <div class="movie-info">
+        <h1>Oppenheimer 2023</h1>
+        <p class="description">قصة العالم الفيزيائي ج. روبرت أوبنهايمر، الذي قاد مشروع مانهاتن خلال الحرب العالمية الثانية لتطوير أول قنبلة ذرية. الفيلم يستكشف التحديات الأخلاقية والعلمية التي واجهها، وتأثير اكتشافه على مستقبل البشرية.</p>
+        <div class="movie-details">
+          <span>التصنيف: دراما، سيرة ذاتية، تاريخ</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">hourglass_empty</span> 3 ساعات</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">star</span> 8.3/10</span>
+          <span>المخرج: كريستوفر نولان</span>
+          <span>تاريخ الإصدار: 2023</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Oppenheimer.html'">مشاهدة وتحميل بجودة عالية</button>
+      </div>
+    </div>
+    
+    <!-- شريحة 2: جون ويك 4 -->
+    <div class="hero-slide" style="background-image: url('https://i.ibb.co/9953qJKk/f2c00308e29e36235891c996ca9371a8.jpg')">
+      <div class="movie-info">
+        <h1>Black Panther: Wakanda Forever</h1>
+        <p class="description">يقاتل شعب واكاندا لحماية وطنهم من القوي المتداخله بينما يحزنون علي وفاة الملك.</p>
+        <div class="movie-details">
+          <span>التصنيف: أكشن، إثارة، جريمة</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">hourglass_empty</span> 2 ساعة 49 دقيقة</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">star</span> 8.0/10</span>
+          <span>المخرج: ريان كوجلر</span>
+          <span>تاريخ الإصدار: 2022</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Black Panther_ Wakanda Forever.html'">مشاهدة وتحميل بجودة عالية</button>
+      </div>
+    </div>
+    
+    <!-- شريحة 3: أفتر إيفر -->
+    <div class="hero-slide" style="background-image: url('https://i.ibb.co/Y7jk2hch/cb3abc3150d76a987dd2d8948b26d3ad.jpg')">
+      <div class="movie-info">
+        <h1>Black Clover</h1>
+        <p class="description">تربي أستا ويونو معًا في الكنيسة نفسها، وظلّا لا يفترقان منذ ذلك الحين. في طفولتهما، تعاهدا على التنافس لمعرفة من سيصبح الإمبراطور القادم.</p>
+        <div class="movie-details">
+          <span>التصنيف: رومانسي، دراما</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">hourglass_empty</span> 1 ساعة 55 دقيقة</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">star</span> 5.5/10</span>
+          <span>تاريخ الإصدار: 2017-2021</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Black Clover.html'">مشاهدة وتحميل بجودة عالية</button>
+      </div>
+    </div>
+    
+    <!-- شريحة 4: الساحر -->
+    <div class="hero-slide" style="background-image: url('https://i.ibb.co/gFjJV6yX/389626c2e1c74abc73f4072bfe142bcb.jpg')">
+      <div class="movie-info">
+        <h1>Superman</h1>
+        <p class="description">يجب على سوبرمان التوفيق بين إرثه الكريبتوني الفضائي ونشأته البشرية كمراسل كلارك كينت. وبصفته تجسيدًا للحقيقة والعدالة والسلوك الإنساني، سرعان ما يجد نفسه في عالم ينظر إلى هذه الأمور على أنها من الماضي..</p>
+        <div class="movie-details">
+          <span>التصنيف: فانتازيا، أكشن، مغامرة</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">hourglass_empty</span> 2 ساعة 4 دقائق</span>
+          <span><span class="material-icons" style="vertical-align: middle; color: #ff6b6b;">star</span> 7.2/10</span>
+          <span>المخرج: فرانسيس لورانس</span>
+          <span>تاريخ الإصدار: 2025</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Superman.html'">مشاهدة وتحميل بجودة عالية</button>
+      </div>
+    </div>
+    
+    <div class="carousel">
+      <button class="prev" id="prev-btn">
+        <span class="material-icons">arrow_forward</span>
+      </button>
+      <div class="dots" id="dots-container">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+      </div>
+      <button class="next" id="next-btn">
+        <span class="material-icons">arrow_back</span>
+      </button>
+    </div>
+  </header>
+  
+  <!-- عرض الفيلم الرئيسي للهواتف -->
+  <section class="mobile-hero" id="mobile-hero">
+    <div class="mobile-slides-container">
+      <!-- شريحة 1: أوبنهايمر -->
+      <div class="mobile-slide active">
+        <h1>Oppenheimer 2023</h1>
+        <div class="poster">
+          <img src="https://i.ibb.co/Y7QQw2Mh/IMG-20250813-WA0010.jpg" alt="Oppenheimer">
+        </div>
+        <p class="description">فيلم أوبنهايمر يروي قصة العالم الفيزيائي ج. روبرت أوبنهايمر، الذي قاد مشروع مانهاتن خلال الحرب العالمية الثانية لتطوير أول قنبلة ذرية.</p>
+        <div class="mobile-movie-details">
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">star</span> 8.3/10</span>
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">schedule</span> 180 دقيقة</span>
+          <span>2023</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Oppenheimer.html'">مشاهدة وتحميل</button>
+      </div>
+      
+      <!-- شريحة 2: جون ويك 4 -->
+      <div class="mobile-slide">
+        <h1>Black Panther: Wakanda forever </h1>
+        <div class="poster">
+          <img src="https://i.ibb.co/tPnhyhwF/3e1dfa2b1226ba3fbed9e1bcc974c8da.jpg" alt="John Wick">
+        </div>
+        <p class="description">يقاتل شعب واكاندا لحماية وطنهم من القوي المتداخله بينما يحزنون علي وفاة الملك.</p>
+        <div class="mobile-movie-details">
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">star</span> 8.0/10</span>
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">schedule</span> 169 دقيقة</span>
+          <span>2022</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Black Panther _Wakanda Forever.html'">مشاهدة وتحميل</button>
+      </div>
+      
+      <!-- شريحة 3: أفتر إيفر -->
+      <div class="mobile-slide">
+        <h1>Black clover</h1>
+        <div class="poster">
+          <img src="https://i.ibb.co/rKm5hk7Y/27dda6bb9b3f27ebf2ee9bd5dd9ac6cd.jpg" alt="Black Clover">
+        </div>
+        <p class="description">  تربي أستا ويونو معًا في الكنيسة نفسها، وظلّا لا يفترقان منذ ذلك الحين. في طفولتهما، تعاهدا على التنافس لمعرفة من سيصبح الإمبراطور القادم.</p>
+        <div class="mobile-movie-details">
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">star</span> 5.5/10</span>
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">schedule</span> 115 دقيقة</span>
+          <span>2017-2021</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Black Clover.html'">مشاهدة وتحميل</button>
+      </div>
+      
+      <!-- شريحة 4: الساحر -->
+      <div class="mobile-slide">
+        <h1>Superman</h1>
+        <div class="poster">
+          <img src="https://i.ibb.co/LXfD5mzK/IMG-20250813-WA0017.jpg" alt="The Magician">
+        </div>
+        <p class="description">يجب على سوبرمان التوفيق بين إرثه الكريبتوني الفضائي ونشأته البشرية كمراسل كلارك كينت. وبصفته تجسيدًا للحقيقة والعدالة والسلوك الإنساني، سرعان ما يجد نفسه في عالم ينظر إلى هذه الأمور على أنها من الماضي.</p>
+        <div class="mobile-movie-details">
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">star</span> 7.2/10</span>
+          <span><span class="material-icons" style="vertical-align: middle; font-size: 16px; color: #ff6b6b;">schedule</span> 124 دقيقة</span>
+          <span>2025</span>
+        </div>
+        <button class="watch-btn" onclick="window.location.href='Superman.html'">مشاهدة وتحميل</button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- قسم البحث المتقدم -->
+  <section class="advanced-search">
+    <h2>بحث متقدم عن الأفلام والمسلسلات</h2>
+    <form class="filters-form" id="filter-form">
+      <div class="filter-group">
+        <label for="type">النوع</label>
+        <select id="type" name="type">
+          <option value="">اختر النوع</option>
+          <option value="movie">فيلم</option>
+          <option value="series">مسلسل</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="country">البلد</label>
+        <select id="country" name="country">
+          <option value="">اختر البلد</option>
+          <option value="us">الولايات المتحدة</option>
+          <option value="uk">المملكة المتحدة</option>
+          <option value="eg">مصر</option>
+          <option value="fr">فرنسا</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="yearFrom">سنة الإصدار من</label>
+        <input type="number" id="yearFrom" name="yearFrom" placeholder="مثال: 2000">
+      </div>
+      <div class="filter-group">
+        <label for="yearTo">سنة الإصدار إلى</label>
+        <input type="number" id="yearTo" name="yearTo" placeholder="مثال: 2023">
+      </div>
+      <div class="filter-group">
+        <label for="imdbMin">تقييم IMDb من</label>
+        <input type="number" step="0.1" id="imdbMin" name="imdbMin" placeholder="مثال: 5.0">
+      </div>
+      <div class="filter-group">
+        <label for="imdbMax">تقييم IMDb إلى</label>
+        <input type="number" step="0.1" id="imdbMax" name="imdbMax" placeholder="مثال: 9.0">
+      </div>
+      <div class="filter-group">
+        <label for="quality">الجودة</label>
+        <select id="quality" name="quality">
+          <option value="">اختر الجودة</option>
+          <option value="4K">4K</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="ageRating">الفئة العمرية</label>
+        <select id="ageRating" name="ageRating">
+          <option value="">اختر الفئة العمرية</option>
+          <option value="g">G</option>
+          <option value="pg">PG</option>
+          <option value="pg13">PG-13</option>
+          <option value="r">R</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="actor">الممثل</label>
+        <input type="text" id="actor" name="actor" placeholder="اسم الممثل">
+      </div>
+      <div class="filter-group">
+        <label for="director">المخرج</label>
+        <input type="text" id="director" name="director" placeholder="اسم المخرج">
+      </div>
+      <div class="filter-group-inline">
+        <label for="dubbed">مدبلج</label>
+        <input type="checkbox" id="dubbed" name="dubbed">
+      </div>
+      <div class="filter-group-inline">
+        <label for="subtitles">مترجم</label>
+        <input type="checkbox" id="subtitles" name="subtitles">
+      </div>
+      <div class="filter-group">
+        <label for="sortBy">الترتيب</label>
+        <select id="sortBy" name="sortBy">
+          <option value="">اختر الترتيب</option>
+          <option value="latest">الأحدث</option>
+          <option value="oldest">الأقدم</option>
+          <option value="ratingDesc">الأعلى تقييمًا</option>
+          <option value="ratingAsc">الأقل تقييمًا</option>
+        </select>
+      </div>
+      <button type="submit" class="search-button">تطبيق الفلاتر والبحث</button>
+    </form>
+  </section>
+
+  <!-- قسم الشرائح الثلاث مع البوسترات -->
+  <section id="tmdb-sliders" class="movies-slides">
+    <div class="movie-slider-container">
+      <h2>الأفلام الشائعة</h2>
+      <div class="poster-group">
+        <div class="poster">
+          <img src="https://i.ibb.co/SDppXy95/86f2f5b005f0db8c96e12020b7aaaa99.jpg" alt="فيلم 1">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/tpF6Hwym/98eb016930395e259c2c5970439a773f.jpg" alt="فيلم 2">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/5XXFcGcB/74e76e7851ae7e2965557e2d8e3772e8.jpg" alt="فيلم 3">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/mFMpNHff/4fd6cac317d2f9d588a641025d964952.jpg" alt="فيلم 4">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/cSqR3R69/b0c83afe8f675971286c4f1544bbc544.jpg" alt="فيلم 5">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/JWZYhf1k/IMG-20250813-WA0015.jpg" alt="فيلم 6">
+        </div>
+      </div>
+    </div>
+    
+    <div class="movie-slider-container">
+      <h2>أفضل المسلسلات</h2>
+      <div class="poster-group">
+        <div class="poster">
+          <img src="https://i.ibb.co/kg7RjS2M/IMG-20250813-WA0006.jpg" alt="فيلم 7">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/HDfJBrzZ/806d535f982d43fbcb6f353f8ec61def.jpg" alt="فيلم 8">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/v6866hkK/Loki2.webp" alt="فيلم 9">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/ZRzXqGdW/a01ecb51d984455bf8da62bd5dcab22d.jpg" alt="فيلم 10">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/BHLTQd1M/a96a002732d97f46655bb7ed7a616db5.jpg" alt="فيلم 11">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/DPnZ5qTy/e82f828f60f7d210d7c8574595c771e9.jpg" alt="فيلم 12">
+        </div>
+      </div>
+    </div>
+    
+    <div class="movie-slider-container">
+      <h2>كارتون</h2>
+      <div class="poster-group">
+        <div class="poster">
+          <img src="https://i.ibb.co/TMsW4DSs/a89406b474366e44709540a68b34e122.jpg" alt="مسلسل 1">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/84r0Dbsx/6eb74bcd2034c3bb2242b4cb2028a881.jpg" alt="مسلسل 2">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/67yY366Y/1a214fde58806e5ae91edeca91cff115.jpg" alt="مسلسل 3">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/YBtyYGSm/3f6893b2eec67340b9e1443f45db327e.jpg" alt="مسلسل 4">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/TD5zbbgW/aa39574b40081259b8b674dcc78c86d3.jpg" alt="مسلسل 5">
+        </div>
+        <div class="poster">
+          <img src="https://i.ibb.co/JFGMgmMX/ef6679c17de80fa3a22835274097a046.jpg" alt="مسلسل 6">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- تذييل الصفحة -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">الشروط والأحكام</a>
+      <a href="#">سياسة الخصوصية</a>
+      <a href="contact_formsubmit.html">تواصل معنا</a>
+      <a href="AboutUs.html">عن الموقع</a>
+    </div>
+    <p>© 2025 CinemaLand. جميع الحقوق محفوظة</p>
+  </footer>
+
+  <script>
+    // وظيفة القائمة الجانبية للهواتف
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.overlay');
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      
+      // منع التمرير عند فتح القائمة
+      document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    // تهيئة الصفحة عند التحميل
+    document.addEventListener('DOMContentLoaded', () => {
+      // إخفاء الهيرو على الهواتف وإظهار البديل
+      if (window.innerWidth <= 768) {
+        document.getElementById('desktop-hero').style.display = 'none';
+        document.getElementById('mobile-hero').style.display = 'block';
+        initMobileCarousel();
+      } else {
+        document.getElementById('desktop-hero').style.display = 'block';
+        document.getElementById('mobile-hero').style.display = 'none';
+        initDesktopCarousel();
+      }
+      
+      // إضافة معالجات النقر للبوسترات
+      document.querySelectorAll('.poster').forEach(poster => {
+        poster.addEventListener('click', function() {
+          window.location.href = `Details.html`;
+        });
+      });
+    });
+    
+    // نظام التبديل للأفلام في شاشات الكمبيوتر
+    function initDesktopCarousel() {
+      const slides = document.querySelectorAll('.hero-slide');
+      const dots = document.querySelectorAll('.dot');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      let currentIndex = 0;
+      let autoSlideInterval;
+      
+      // تحديث الشرائح والنقاط
+      function updateSlides() {
+        slides.forEach((slide, index) => {
+          slide.classList.toggle('active', index === currentIndex);
+        });
+        
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentIndex);
+        });
+      }
+      
+      // التبديل إلى الشريحة التالية
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSlides();
+      }
+      
+      // التبديل إلى الشريحة السابقة
+      function prevSlide() {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateSlides();
+      }
+      
+      // بدء التبديل التلقائي
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 5000);
+      }
+      
+      // إيقاف التبديل التلقائي
+      function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+      }
+      
+      // إضافة معالجات الأحداث
+      nextBtn.addEventListener('click', () => {
+        stopAutoSlide();
+        nextSlide();
+        startAutoSlide();
+      });
+      
+      prevBtn.addEventListener('click', () => {
+        stopAutoSlide();
+        prevSlide();
+        startAutoSlide();
+      });
+      
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          stopAutoSlide();
+          currentIndex = parseInt(dot.getAttribute('data-index'));
+          updateSlides();
+          startAutoSlide();
+        });
+      });
+      
+      // بدء التبديل التلقائي
+      startAutoSlide();
+    }
+    
+    // نظام التبديل للأفلام في شاشات الهواتف
+    function initMobileCarousel() {
+      const slides = document.querySelectorAll('.mobile-slide');
+      let currentIndex = 0;
+      
+      // تحديث الشرائح
+      function updateSlides() {
+        slides.forEach((slide, index) => {
+          slide.classList.toggle('active', index === currentIndex);
+        });
+      }
+      
+      // التبديل إلى الشريحة التالية
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateSlides();
+      }
+      
+      // بدء التبديل التلقائي
+      setInterval(nextSlide, 10000);
+      
+      // التهيئة الأولية
+      updateSlides();
+    }
+    
+    // تحديث العرض عند تغيير حجم النافذة
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 768) {
+        document.getElementById('desktop-hero').style.display = 'none';
+        document.getElementById('mobile-hero').style.display = 'block';
+        initMobileCarousel();
+      } else {
+        document.getElementById('desktop-hero').style.display = 'block';
+        document.getElementById('mobile-hero').style.display = 'none';
+        initDesktopCarousel();
+      }
+    });
+  </script>
+</body>
+</html>
