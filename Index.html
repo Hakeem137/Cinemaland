@@ -1184,10 +1184,12 @@
       // إضافة معالجات النقر للبوسترات
       document.querySelectorAll('.poster').forEach(poster => {
         poster.addEventListener('click', function() {
-          window.location.href = `Details.html`;
+          const movieId = this.getAttribute('data-movie-id');
+          if (movieId) {
+            window.location.href = movieId;
+          }
         });
       });
-    });
     
     // نظام التبديل للأفلام في شاشات الكمبيوتر
     function initDesktopCarousel() {
