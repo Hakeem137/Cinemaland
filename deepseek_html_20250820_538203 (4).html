@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaLand - لوحة التحكم المتكاملة</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: white;
+      font-family: 'Tajawal', sans-serif;
+      font-weight:700;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      padding: 15px 5%;
+      background-color: rgba(0, 0, 0, 0.8);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff6b6b;
+      text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+    }
+    
+    .admin-tabs {
+      display: flex;
+      background: rgba(34, 34, 34, 0.8);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .admin-tab {
+      padding: 15px 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .admin-tab.active {
+      background: rgba(255, 107, 107, 0.2);
+      border-bottom: 3px solid #ff6b6b;
+    }
+    
+    .admin-tab:hover {
+      background: rgba(255, 107, 107, 0.1);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .admin-page {
+      padding: 100px 5% 50px;
+    }
+    
+    .page-title {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #ff6b6b;
+      text-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+      font-size: 36px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .page-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 4px;
+      background: linear-gradient(to right, transparent, #ff6b6b, transparent);
+      border-radius: 3px;
+    }
+    
+    .admin-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+    
+    .form-container {
+      background: rgba(34, 34, 34, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #ff6b6b;
+    }
+    
+    .form-title {
+      color: #ffb6b6;
+      margin-bottom: 20px;
+      font-size: 22px;
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #e0e0e0;
+    }
+    
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .download-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+    }
+    
+    .download-option input {
+      flex: 1;
+    }
+    
+    .add-download-btn, .remove-download-btn {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .add-download-btn:hover {
+      background: #2ecc71;
+    }
+    
+    .remove-download-btn:hover {
+      background: #e74c3c;
+    }
+    
+    .movies-list {
+      background: rgba(34, 34, 34, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #ff6b6b;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    
+    .movies-list-title {
+      color: #ffb6b6;
+      margin-bottom: 20px;
+      font-size: 22px;
+      text-align: center;
+    }
+    
+    .movie-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #444;
+      margin-bottom: 10px;
+    }
+    
+    .movie-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    
+    .movie-info-small {
+      flex: 1;
+    }
+    
+    .movie-title-small {
+      font-size: 16px;
+      color: #ffb6b6;
+      margin-bottom: 5px;
+    }
+    
+    .movie-details-small {
+      display: flex;
+      gap: 15px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    
+    .movie-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn-edit {
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .btn-delete {
+      background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .admin-btn {
+      background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: 14px;
+      position: relative;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+      margin-top: 10px;
+    }
+    
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 5px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-left: 4px solid #ff6b6b;
+      display: none;
+      z-index: 2000;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- شريط التنقل العلوي -->
+  <nav class="navbar">
+    <div class="logo">لوحة تحكم سينما لاند المتكاملة</div>
+    <div class="auth-buttons">
+      <button id="logout-btn">تسجيل الخروج</button>
+    </div>
+  </nav>
+  
+  <!-- محتوى لوحة التحكم -->
+  <section class="admin-page">
+    <h1 class="page-title">لوحة إدارة الأفلام والمحتوى</h1>
+    
+    <div class="admin-tabs">
+      <div class="admin-tab active" data-tab="movies">إدارة الأفلام</div>
+      <div class="admin-tab" data-tab="downloads">إدارة أزرار التنزيل</div>
+    </div>
+    
+    <!-- تبويب إدارة الأفلام -->
+    <div class="tab-content active" id="movies-tab">
+      <div class="admin-container">
+        <div class="form-container">
+          <h2 class="form-title" id="form-title">إضافة فيلم جديد</h2>
+          <form id="movie-form">
+            <input type="hidden" id="movie-id">
+            <div class="form-group">
+              <label for="movie-title">عنوان الفيلم</label>
+              <input type="text" id="movie-title" required>
+            </div>
+            <div class="form-group">
+              <label for="movie-year">سنة الإصدار</label>
+              <input type="number" id="movie-year" required min="1900" max="2100">
+            </div>
+            <div class="form-group">
+              <label for="movie-rating">التقييم (من 10)</label>
+              <input type="number" id="movie-rating" required min="0" max="10" step="0.1">
+            </div>
+            <div class="form-group">
+              <label for="movie-image">رابط صورة الفيلم</label>
+              <input type="url" id="movie-image" required>
+            </div>
+            <div class="form-group">
+              <label for="movie-duration">مدة الفيلم (دقيقة)</label>
+              <input type="number" id="movie-duration">
+            </div>
+            <div class="form-group">
+              <label for="movie-genre">النوع</label>
+              <input type="text" id="movie-genre" placeholder="أكشن، دراما، الخ">
+            </div>
+            <div class="form-group">
+              <label for="movie-description">وصف الفيلم</label>
+              <textarea id="movie-description"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="movie-director">المخرج</label>
+              <input type="text" id="movie-director">
+            </div>
+            <div class="form-group">
+              <label for="movie-cast">طاقم التمثيل</label>
+              <textarea id="movie-cast"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="movie-trailer">رابط التريلر (Youtube)</label>
+              <input type="url" id="movie-trailer">
+            </div>
+            <button type="submit" class="admin-btn">حفظ الفيلم</button>
+            <button type="button" class="admin-btn" id="cancel-edit" style="display: none; background: #666; margin-right: 10px;">إلغاء التعديل</button>
+          </form>
+        </div>
+        
+        <div class="movies-list">
+          <h2 class="movies-list-title">الأفلام المضافة</h2>
+          <div id="movies-container">
+            <!-- سيتم ملؤها بواسطة JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- تبويب إدارة أزرار التنزيل -->
+    <div class="tab-content" id="downloads-tab">
+      <div class="form-container">
+        <h2 class="form-title">إعدادات أزرار التنزيل والمشاهدة</h2>
+        <div class="form-group">
+          <label for="download-buttons">أزرار التنزيل الحالية</label>
+          <div id="download-buttons-container">
+            <!-- سيتم إضافة أزرار التنزيل هنا -->
+          </div>
+          <button type="button" class="add-download-btn" id="add-download-btn">+ إضافة جودة جديدة</button>
+        </div>
+        
+        <div class="form-group">
+          <label for="button-style">تنسيق الأزرار</label>
+          <select id="button-style">
+            <option value="default">التصميم الافتراضي</option>
+            <option value="rounded">زوايا دائرية</option>
+            <option value="gradient">تدرج ألوان</option>
+            <option value="outline">إطار فقط</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="button-color">لون الأزرار</label>
+          <input type="color" id="button-color" value="#ff6b6b">
+        </div>
+        
+        <button type="button" class="admin-btn" id="save-download-settings">حفظ الإعدادات</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- إشعار -->
+  <div class="notification" id="notification"></div>
+
+  <script>
+    // تهيئة البيانات
+    let movies = JSON.parse(localStorage.getItem('cinemaland_movies')) || [];
+    let editingMovieId = null;
+    let downloadButtons = JSON.parse(localStorage.getItem('cinemaland_download_buttons')) || [
+      { quality: "جودة عالية 1080p", link: "#" },
+      { quality: "جودة متوسطة 720p", link: "#" },
+      { quality: "جودة منخفضة 480p", link: "#" }
+    ];
+    let buttonStyle = localStorage.getItem('cinemaland_button_style') || 'default';
+    let buttonColor = localStorage.getItem('cinemaland_button_color') || '#ff6b6b';
+
+    // عناصر DOM
+    const movieForm = document.getElementById('movie-form');
+    const moviesContainer = document.getElementById('movies-container');
+    const cancelEditBtn = document.getElementById('cancel-edit');
+    const formTitle = document.getElementById('form-title');
+    const notification = document.getElementById('notification');
+    const downloadButtonsContainer = document.getElementById('download-buttons-container');
+    const buttonStyleSelect = document.getElementById('button-style');
+    const buttonColorInput = document.getElementById('button-color');
+    const adminTabs = document.querySelectorAll('.admin-tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    // تهيئة التبويبات
+    adminTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabId = tab.getAttribute('data-tab');
+        
+        // إخفاء جميع المحتويات
+        tabContents.forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // إلغاء تنشيط جميع التبويبات
+        adminTabs.forEach(t => {
+          t.classList.remove('active');
+        });
+        
+        // إظهار المحتوى المحدد
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+        tab.classList.add('active');
+      });
+    });
+
+    // عرض أزرار التنزيل
+    function renderDownloadButtons() {
+      downloadButtonsContainer.innerHTML = '';
+      
+      downloadButtons.forEach((button, index) => {
+        const buttonElement = document.createElement('div');
+        buttonElement.classList.add('download-option');
+        buttonElement.innerHTML = `
+          <input type="text" placeholder="نوع الجودة" value="${button.quality}" data-index="${index}" class="download-quality">
+          <input type="url" placeholder="رابط التنزيل" value="${button.link}" data-index="${index}" class="download-link">
+          <button type="button" class="remove-download-btn" data-index="${index}">×</button>
+        `;
+        downloadButtonsContainer.appendChild(buttonElement);
+      });
+      
+      // إضافة أحداث لحذف الأزرار
+      document.querySelectorAll('.remove-download-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = parseInt(this.getAttribute('data-index'));
+          downloadButtons.splice(index, 1);
+          renderDownloadButtons();
+        });
+      });
+    }
+
+    // إضافة زر تنزيل جديد
+    document.getElementById('add-download-btn').addEventListener('click', function() {
+      downloadButtons.push({ quality: "", link: "" });
+      renderDownloadButtons();
+    });
+
+    // حفظ الفيلم
+    movieForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const movieData = {
+        id: editingMovieId || Date.now().toString(),
+        title: document.getElementById('movie-title').value,
+        year: document.getElementById('movie-year').value,
+        rating: document.getElementById('movie-rating').value,
+        image: document.getElementById('movie-image').value,
+        duration: document.getElementById('movie-duration').value,
+        genre: document.getElementById('movie-genre').value,
+        description: document.getElementById('movie-description').value,
+        director: document.getElementById('movie-director').value,
+        cast: document.getElementById('movie-cast').value,
+        trailer: document.getElementById('movie-trailer').value,
+        downloadButtons: downloadButtons
+      };
+      
+      if (editingMovieId) {
+        // تعديل فيلم موجود
+        const index = movies.findIndex(m => m.id === editingMovieId);
+        if (index !== -1) {
+          movies[index] = movieData;
+          showNotification('تم تعديل الفيلم بنجاح');
+        }
+      } else {
+        // إضافة فيلم جديد
+        movies.push(movieData);
+        showNotification('تم إضافة الفيلم بنجاح');
+      }
+      
+      // حفظ في localStorage وتحديث الواجهة
+      localStorage.setItem('cinemaland_movies', JSON.stringify(movies));
+      renderMovies();
+      resetForm();
+    });
+
+    // حفظ إعدادات أزرار التنزيل
+    document.getElementById('save-download-settings').addEventListener('click', function() {
+      // تحديث أزرار التنزيل من الحقول
+      document.querySelectorAll('.download-quality').forEach(input => {
+        const index = parseInt(input.getAttribute('data-index'));
+        downloadButtons[index].quality = input.value;
+      });
+      
+      document.querySelectorAll('.download-link').forEach(input => {
+        const index = parseInt(input.getAttribute('data-index'));
+        downloadButtons[index].link = input.value;
+      });
+      
+      buttonStyle = buttonStyleSelect.value;
+      buttonColor = buttonColorInput.value;
+      
+      localStorage.setItem('cinemaland_download_buttons', JSON.stringify(downloadButtons));
+      localStorage.setItem('cinemaland_button_style', buttonStyle);
+      localStorage.setItem('cinemaland_button_color', buttonColor);
+      
+      showNotification('تم حفظ إعدادات التنزيل بنجاح');
+    });
+
+    // إلغاء التعديل
+    cancelEditBtn.addEventListener('click', resetForm);
+
+    // عرض الأفلام
+    function renderMovies() {
+      moviesContainer.innerHTML = '';
+      
+      if (movies.length === 0) {
+        moviesContainer.innerHTML = '<p style="text-align: center; color: #aaa;">لا توجد أفلام مضافة بعد</p>';
+        return;
+      }
+      
+      movies.forEach(movie => {
+        const movieElement = document.createElement('div');
+        movieElement.classList.add('movie-item');
+        movieElement.innerHTML = `
+          <div class="movie-info-small">
+            <div class="movie-title-small">${movie.title}</div>
+            <div class="movie-details-small">
+              <span>السنة: ${movie.year}</span>
+              <span>التقييم: ${movie.rating}</span>
+            </div>
+          </div>
+          <div class="movie-actions">
+            <button class="btn-edit" onclick="editMovie('${movie.id}')">تعديل</button>
+            <button class="btn-delete" onclick="deleteMovie('${movie.id}')">حذف</button>
+          </div>
+        `;
+        moviesContainer.appendChild(movieElement);
+      });
+    }
+
+    // تعديل فيلم
+    function editMovie(id) {
+      const movie = movies.find(m => m.id === id);
+      if (movie) {
+        document.getElementById('movie-id').value = movie.id;
+        document.getElementById('movie-title').value = movie.title;
+        document.getElementById('movie-year').value = movie.year;
+        document.getElementById('movie-rating').value = movie.rating;
+        document.getElementById('movie-image').value = movie.image;
+        document.getElementById('movie-duration').value = movie.duration || '';
+        document.getElementById('movie-genre').value = movie.genre || '';
+        document.getElementById('movie-description').value = movie.description || '';
+        document.getElementById('movie-director').value = movie.director || '';
+        document.getElementById('movie-cast').value = movie.cast || '';
+        document.getElementById('movie-trailer').value = movie.trailer || '';
+        
+        if (movie.downloadButtons) {
+          downloadButtons = movie.downloadButtons;
+          renderDownloadButtons();
+        }
+        
+        editingMovieId = id;
+        formTitle.textContent = 'تعديل الفيلم';
+        cancelEditBtn.style.display = 'inline-block';
+        
+        // التمرير إلى الأعلى للنموذج
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // حذف فيلم
+    function deleteMovie(id) {
+      if (confirm('هل أنت متأكد من حذف هذا الفيلم؟')) {
+        movies = movies.filter(m => m.id !== id);
+        localStorage.setItem('cinemaland_movies', JSON.stringify(movies));
+        renderMovies();
+        showNotification('تم حذف الفيلم بنجاح');
+      }
+    }
+
+    // إعادة تعيين النموذج
+    function resetForm() {
+      movieForm.reset();
+      editingMovieId = null;
+      formTitle.textContent = 'إضافة فيلم جديد';
+      cancelEditBtn.style.display = 'none';
+    }
+
+    // عرض الإشعارات
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.style.display = 'block';
+      
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+
+    // تهيئة الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+      renderMovies();
+      renderDownloadButtons();
+      buttonStyleSelect.value = buttonStyle;
+      buttonColorInput.value = buttonColor;
+      
+      // إضافة حدث لتسجيل الخروج
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        // هنا يمكنك إضافة منطق تسجيل الخروج
+        window.location.href = 'index.html';
+      });
+    });
+  </script>
+</body>
+</html>
